@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ametask/home/widgets/search.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -6,7 +7,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2D2E2F),
+      body: SingleChildScrollView(
+        child: Stack(children: [Search()]),
+      ),
+      backgroundColor: Color(0xFF232325),
       bottomNavigationBar: NavigationBar(),
     );
   }
@@ -35,14 +39,14 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               BottomNavigationBarItem(
-                label: "example",
+                label: "folders",
                 icon: Container(
                   margin: const EdgeInsets.all(5),
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
-                    Icons.more_horiz_outlined,
+                    Icons.folder_rounded,
                     size: 30,
-                    color: Colors.white,
+                    color: Color(0xFFEFEFEF),
                   ),
                 ),
               ),
@@ -54,7 +58,7 @@ class HomePage extends StatelessWidget {
                   child: const Icon(
                     Icons.more_horiz_rounded,
                     size: 30,
-                    color: Colors.white,
+                    color: Color(0xFFEFEFEF),
                   ),
                 ),
               ),
@@ -66,7 +70,7 @@ class HomePage extends StatelessWidget {
                   child: const Icon(
                     Icons.settings,
                     size: 30,
-                    color: Colors.white,
+                    color: Color(0xFFEFEFEF),
                   ),
                 ),
               ),
