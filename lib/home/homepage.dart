@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ametask/home/widgets/search.dart';
+import 'package:ametask/home/widgets/tasklist_lists.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,7 +9,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Stack(children: [Search()]),
+        child: Column(children: [Search(), TasklistLists()]),
       ),
       backgroundColor: Color(0xFF232325),
       bottomNavigationBar: NavigationBar(),
