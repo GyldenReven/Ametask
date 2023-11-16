@@ -6,9 +6,11 @@ class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 25,
-        vertical: MediaQuery.of(context).padding.top + 25,
+      padding: EdgeInsets.only(
+        left: 25,
+        right: 25,
+        top: MediaQuery.of(context).padding.top + 25,
+        bottom:25,
       ),
       child: Stack(
         children: [
