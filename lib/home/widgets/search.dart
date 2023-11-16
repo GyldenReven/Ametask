@@ -14,7 +14,7 @@ class Search extends StatelessWidget {
         children: [
           TextField(
             cursorColor: const Color(0xFFA562E4),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white70
             ),
             decoration: InputDecoration(
