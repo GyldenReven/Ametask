@@ -21,19 +21,26 @@ class AmetaskDatabase {
     final path = join(dbPath, filePath);
 
     return await openDatabase(path, version: 1, onCreate: _createDB);
+    // onCreate execute la fonction lors de la creation de la db
   }
 
   Future _createDB(Database db, int version) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
 
+    const textType = 'TEXT NOT NULL';
     const integerType = 'INTEGER NOT NULL'; 
     // final boolType = 'BOOLEAN NOT NULL';
     
     await db.execute('''
 CREATE TABLE $tableTasklists (
   ${TasklistFields.id} $idType,
-  ${TasklistFields.idFolder} $integerType
-  ${TasklistFields.name}
+  ${TasklistFields.idFolder} $integerType,
+  ${TasklistFields.name} $textType,
+  ${TasklistFields.colors} $textType,
+  ${TasklistFields.createDate} $textType,
+  ${TasklistFields.lastModifDate} $textType,
+  ${TasklistFields.lastModifHour} $textType,
+
 )
 ''');
   }
