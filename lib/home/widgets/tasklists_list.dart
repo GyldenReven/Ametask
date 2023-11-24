@@ -1,6 +1,7 @@
 import 'package:ametask/models/tasklists_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
+import 'package:flutter/services.dart';
 
 class TasklistLists extends StatefulWidget {
   const TasklistLists({super.key});
@@ -10,7 +11,14 @@ class TasklistLists extends StatefulWidget {
 }
 
 class _TasklistListsState extends State<TasklistLists> {
-  List<Tasklist> tasklists = [Tasklist(idFolder: 0, name: 'Title', color: "white", createDate: DateTime.now(), lastModifDate: DateTime.now())];
+  List<Tasklist> tasklists = [
+    Tasklist(
+        idFolder: 0,
+        name: 'Title',
+        color: "white",
+        createDate: DateTime.now(),
+        lastModifDate: DateTime.now())
+  ];
   bool isLoading = false;
 
   _TasklistListsState.initState();
@@ -38,7 +46,13 @@ class _TasklistListsState extends State<TasklistLists> {
   }
 
   Future addTasklist() async {
-    setState(() {tasklists.add(Tasklist(idFolder: 0, name: 'Title', color: "white", createDate: DateTime.now(), lastModifDate: DateTime.now()));
+    setState(() {
+      tasklists.add(Tasklist(
+          idFolder: 0,
+          name: 'Title',
+          color: "white",
+          createDate: DateTime.now(),
+          lastModifDate: DateTime.now()));
     });
 
     await AmetaskDatabase.instance.createTasklist(tasklists.last);
@@ -47,7 +61,7 @@ class _TasklistListsState extends State<TasklistLists> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Stack(
           children: [
             Column(
@@ -57,89 +71,16 @@ class _TasklistListsState extends State<TasklistLists> {
                       padding: const EdgeInsets.all(15),
                       margin: const EdgeInsets.only(bottom: 20),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Color(0xFF2D2E2F),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Row(
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  tasklist.name,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(height: 2),
-                                        /* Etoille Review - Notation */
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.star,
-                                              size: 15,
-                                              color: Colors.amber,
-                                            ),
-                                            const Icon(
-                                              Icons.star,
-                                              size: 15,
-                                              color: Colors.amber,
-                                            ),
-                                            const Icon(
-                                              Icons.star,
-                                              size: 15,
-                                              color: Colors.amber,
-                                            ),
-                                            const Icon(
-                                              Icons.star,
-                                              size: 15,
-                                              color: Colors.amber,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              size: 15,
-                                              color:
-                                                  Colors.grey.withOpacity(0.3),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                    /**  Bouton Install*/
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 5,
-                                        horizontal: 15,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF5F67EA),
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: const Text(
-                                        'Install',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
+                          Text(
+                            tasklist.name,
+                            style: TextStyle(
+                              color: Color(0xFFEFEFEF),
+                              fontSize: 18,
                             ),
                           ),
                         ],
@@ -148,10 +89,18 @@ class _TasklistListsState extends State<TasklistLists> {
                   )
                   .toList(),
             ),
-            Container(
-              height: 50,
-              color: Colors.red,
-              child: IconButton(onPressed: addTasklist, icon: const Icon(Icons.add)),
+            Positioned(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Color(0xFF9B72CF),
+                ),
+                child: IconButton(
+                    onPressed: addTasklist,
+                    icon: const Icon(Icons.add, color: Color(0xFFFEFEFE))),
+              ),
+              top: 0,
+              right: 0,
             )
           ],
         ));

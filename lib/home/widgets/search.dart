@@ -15,7 +15,7 @@ class Search extends StatelessWidget {
       child: Stack(
         children: [
           TextField(
-            cursorColor: const Color(0xFFA562E4),
+            cursorColor: const Color(0xFF9B72CF),
             style: const TextStyle(
               color: Colors.white70
             ),
@@ -52,7 +52,7 @@ class Search extends StatelessWidget {
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: const Color(0xFFA562E4),
+                color: const Color(0xFF9B72CF),
               ),
               child: const Icon(
                 Icons.manage_search,
