@@ -1,6 +1,7 @@
 import 'package:ametask/models/tasklists_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
+import 'package:ametask/pages/tasklist_detail/tasklist_detail.dart';
 
 class TasklistLists extends StatefulWidget {
   const TasklistLists({super.key});
@@ -63,31 +64,22 @@ class _TasklistListsState extends State<TasklistLists> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Stack(
           children: [
-            Column(
-              children: tasklists
-                  .map(
-                    (tasklist) => Container(
-                      padding: const EdgeInsets.all(15),
-                      margin: const EdgeInsets.only(bottom: 20),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF2D2E2F),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            tasklist.name,
-                            style: const TextStyle(
-                              color: Color(0xFFEFEFEF),
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                  .toList(),
+            ListView.separated(
+            shrinkWrap: true,
+             itemBuilder: (context, index) => GestureDetector(
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => DetailPage(tasklists[index]),
             ),
+          ),
+          child: Container(
+            color: Color(0xFFFEFEFE),
+            height: 40,
+            child: Text(tasklists[index].name),
+          )
+        ),
+        separatorBuilder: (context, index) => const SizedBox(width: 10),
+        itemCount: tasklists.length,),
             Positioned(
               top: 0,
               right: 0,
