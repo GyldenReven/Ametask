@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ametask/home/widgets/search.dart';
-import 'package:ametask/home/widgets/tasklists_list.dart';
+import 'package:ametask/pages/home/widgets/search.dart';
+import 'package:ametask/pages/home/widgets/tasklists_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

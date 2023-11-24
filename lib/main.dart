@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ametask/home/homepage.dart';
+import 'package:ametask/pages/home/homepage.dart';
 
 void main() async {
   runApp(const MyApp());
