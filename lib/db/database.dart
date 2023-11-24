@@ -38,7 +38,7 @@ CREATE TABLE $tableTasklists (
   ${TasklistFields.name} $textType,
   ${TasklistFields.color} $textType,
   ${TasklistFields.createDate} $textType,
-  ${TasklistFields.lastModifDate} $textType,
+  ${TasklistFields.lastModifDate} $textType
 )
 ''');
   }
