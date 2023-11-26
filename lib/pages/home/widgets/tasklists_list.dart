@@ -61,39 +61,39 @@ class _TasklistListsState extends State<TasklistLists> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Stack(
-          children: [
-            ListView.separated(
-            shrinkWrap: true,
-             itemBuilder: (context, index) => GestureDetector(
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => DetailPage(tasklists[index]),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Stack(
+        children: [ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) => GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => DetailPage(tasklists[index]),
+                        ),
+                      ),
+                  child: Container(
+                    color: Color(0xFFFEFEFE),
+                    height: 40,
+                    child: Text(tasklists[index].name),
+                  )),
+              separatorBuilder: (context, index) => const SizedBox(width: 10),
+              itemCount: tasklists.length,
+            ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: const Color(0xFF9B72CF),
+              ),
+              child: IconButton(
+                  onPressed: addTasklist,
+                  icon: const Icon(Icons.add, color: Color(0xFFFEFEFE))),
             ),
           ),
-          child: Container(
-            color: Color(0xFFFEFEFE),
-            height: 40,
-            child: Text(tasklists[index].name),
-          )
-        ),
-        separatorBuilder: (context, index) => const SizedBox(width: 10),
-        itemCount: tasklists.length,),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: const Color(0xFF9B72CF),
-                ),
-                child: IconButton(
-                    onPressed: addTasklist,
-                    icon: const Icon(Icons.add, color: Color(0xFFFEFEFE))),
-              ),
-            )
-          ],
-        ));
+        ],
+      ),
+    );
   }
 }
