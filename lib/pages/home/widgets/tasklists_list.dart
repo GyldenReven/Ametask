@@ -56,6 +56,8 @@ class _TasklistListsState extends State<TasklistLists> {
     });
 
     await AmetaskDatabase.instance.createTasklist(tasklists.last);
+    
+    refreshTasklists();
   }
 
   @override
