@@ -60,27 +60,45 @@ class _TasklistListsState extends State<TasklistLists> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+    return Expanded(
+      flex: 1,
       child: Stack(
-        children: [ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (context, index) => GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => DetailPage(tasklists[index]),
-                        ),
-                      ),
-                  child: Container(
+        children: [
+          ListView.separated(
+            shrinkWrap: true,
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: () async {
+                await Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => DetailTasklist(tasklistId: tasklists[index].id ?? 0)
+                ));
+
+                refreshTasklists();
+              },
+              child: Container(
+                height: 60,
+                decoration: const BoxDecoration(
+                  color:  Color(0xFF2D2E2F),
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+                margin: const EdgeInsets.only(
+                  left: 15,
+                  right: 15,
+                  bottom: 15,
+                ),
+                child: Text(
+                  tasklists[index].name,
+                  style: const TextStyle(
                     color: Color(0xFFFEFEFE),
-                    height: 40,
-                    child: Text(tasklists[index].name),
-                  )),
-              separatorBuilder: (context, index) => const SizedBox(width: 10),
-              itemCount: tasklists.length,
+                    fontSize: 25,
+                  ),
+                ),
+              ),
             ),
+            separatorBuilder: (context, index) => const SizedBox(width: 10),
+            itemCount: tasklists.length,
+          ),
           Positioned(
-            top: 0,
+            bottom: 5,
             right: 0,
             child: Container(
               decoration: BoxDecoration(
