@@ -1,8 +1,6 @@
 import 'package:ametask/models/tasklists_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
-import 'package:path/path.dart';
-import 'package:ametask/pages/home/widgets/tasklists_list.dart';
 
 class DetailTasklist extends StatefulWidget {
   final int tasklistId;
@@ -40,12 +38,33 @@ class _DetailTasklistState extends State<DetailTasklist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: 100,
-        color: Colors.purpleAccent,
-        child: deleteButton(context),
-        ),
-      );
+      backgroundColor: Color(0xFF2D2E2F),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).padding.top + 5,
+                      left: 15,
+                      right: 15,
+                      ),
+                  child: TextFormField(
+                    initialValue: tasklist.name,
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Color(0xFFFEFEFE),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 100,
+                  color: Colors.purpleAccent,
+                  child: deleteButton(context),
+                ),
+              ],
+            ),
+    );
   }
 
   Widget deleteButton(BuildContext context) => IconButton(

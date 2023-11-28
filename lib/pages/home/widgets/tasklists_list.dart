@@ -100,8 +100,8 @@ class _TasklistListsState extends State<TasklistLists> {
             itemCount: tasklists.length,
           ),
           Positioned(
-            bottom: 5,
-            right: 0,
+            bottom: 15,
+            right: 15,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),

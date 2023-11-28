@@ -58,7 +58,7 @@ class Search extends StatelessWidget {
                 child: const Icon(
                   Icons.manage_search,
                   color: Colors.white,
-                  size: 25,
+                  size: 30,
                 ),
               ),
             )
