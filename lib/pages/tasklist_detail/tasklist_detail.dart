@@ -24,15 +24,19 @@ class _DetailTasklistState extends State<DetailTasklist> {
   void initState() {
     super.initState();
 
-    refreshNote();
+    refreshTasklists();
   }
 
-  Future refreshNote() async {
+  Future refreshTasklists() async {
     setState(() => isLoading = true);
 
     tasklist = await AmetaskDatabase.instance.readTasklist(widget.tasklistId);
 
     setState(() => isLoading = false);
+  }
+
+  Future renameTasklists() async {
+    tasklist = tasklist.copy();
   }
 
   @override
@@ -45,16 +49,22 @@ class _DetailTasklistState extends State<DetailTasklist> {
               children: [
                 Container(
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top + 5,
-                      left: 15,
-                      right: 15,
-                      ),
+                    top: MediaQuery.of(context).padding.top + 5,
+                    left: 15,
+                    right: 15,
+                  ),
                   child: TextFormField(
                     initialValue: tasklist.name,
                     style: TextStyle(
                       fontSize: 25,
                       color: Color(0xFFFEFEFE),
                     ),
+                    //controller: TextEditingController(),
+                    onFieldSubmitted: (String value) async {
+                      tasklist = tasklist.copy(name: value);
+
+                      await AmetaskDatabase.instance.updateTasklist(tasklist);
+                    },
                   ),
                 ),
                 Container(
