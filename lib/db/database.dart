@@ -1,3 +1,4 @@
+import 'package:ametask/models/tasks_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:ametask/models/tasklists_model.dart';
@@ -29,8 +30,11 @@ class AmetaskDatabase {
 
     const textType = 'TEXT NOT NULL';
     const integerType = 'INTEGER NOT NULL'; 
-    // final boolType = 'BOOLEAN NOT NULL';
+    const boolType = 'BOOLEAN NOT NULL';
     
+    const nullIntType = 'BOOLEAN';
+    const nullTextType = 'TEXT';
+
     await db.execute('''
 CREATE TABLE $tableTasklists (
   ${TasklistFields.id} $idType,
@@ -41,6 +45,19 @@ CREATE TABLE $tableTasklists (
   ${TasklistFields.createDate} $textType,
   ${TasklistFields.lastModifDate} $textType,
   ${TasklistFields.tagsList} $textType
+);
+
+CREATE TABLE $tableTasks (
+  ${TasksFields.id} $idType,
+  ${TasksFields.idTasklist} $integerType,
+  ${TasksFields.position} $integerType,
+  ${TasksFields.name} $textType,
+  ${TasksFields.description} $textType,
+  ${TasksFields.type} $textType,
+  ${TasksFields.finished} $boolType,
+  ${TasksFields.toDoNum} $nullIntType,
+  ${TasksFields.doneNum} $nullIntType,
+  ${TasksFields.picture} $nullTextType,
 )
 ''');
   }
