@@ -37,19 +37,21 @@ class Tasklist {
     required this.tagsList,
   });
 
-  Map<String, Object?> toJson() => {TasklistFields.id: id,
+  Map<String, Object?> toJson() => {
+        TasklistFields.id: id,
         TasklistFields.idFolder: idFolder,
         TasklistFields.name: name,
         TasklistFields.color: color,
         TasklistFields.description: description,
         TasklistFields.createDate: createDate.toIso8601String(),
         TasklistFields.lastModifDate: lastModifDate.toIso8601String(),
-        TasklistFields.tagsList: tagsList.join("-"),};
+        TasklistFields.tagsList: tagsList.join("-"),
+      };
 
   static Tasklist fromJson(Map<String, Object?> json) => Tasklist(
         id: json[TasklistFields.id] as int?,
         idFolder: json[TasklistFields.idFolder] as int,
-        name: json[TasklistFields.name] as String, 
+        name: json[TasklistFields.name] as String,
         color: json[TasklistFields.color] as String,
         description: json[TasklistFields.name] as String,
         createDate: DateTime.parse(json[TasklistFields.createDate] as String),
@@ -69,13 +71,13 @@ class Tasklist {
     List<int>? tagsList,
   }) =>
       Tasklist(
-          id: id ?? this.id,
-          idFolder: idFolder ?? this.idFolder,
-          name: name ?? this.name,
-          color: color ?? this.color,
-          description: description ?? this.description,
-          createDate: createDate ?? this.createDate,
-          lastModifDate: lastModifDate ?? this.lastModifDate,
-          tagsList: tagsList ?? this.tagsList,
+        id: id ?? this.id,
+        idFolder: idFolder ?? this.idFolder,
+        name: name ?? this.name,
+        color: color ?? this.color,
+        description: description ?? this.description,
+        createDate: createDate ?? this.createDate,
+        lastModifDate: lastModifDate ?? this.lastModifDate,
+        tagsList: tagsList ?? this.tagsList,
       );
 }
