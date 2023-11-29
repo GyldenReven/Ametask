@@ -1,6 +1,7 @@
 import 'package:ametask/models/tasks_model.dart';
 import 'package:ametask/models/tasklists_model.dart';
 import 'package:ametask/models/folders_model.dart';
+import 'package:ametask/models/tags_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -37,6 +38,11 @@ class AmetaskDatabase {
     const nullTextType = 'TEXT';
 
     await db.execute('''
+CREATE TABLE $tableTags (
+  ${TagFields.id} $idType,
+  ${TagFields.name} $textType,
+  ${TagFields.color} $textType,
+);
 
 CREATE TABLE $tableFolders (
   ${FolderFields.id} $idType,
