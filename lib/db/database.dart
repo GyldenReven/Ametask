@@ -44,7 +44,8 @@ CREATE TABLE $tableTasklists (
   ${TasklistFields.description} $textType,
   ${TasklistFields.createDate} $textType,
   ${TasklistFields.lastModifDate} $textType,
-  ${TasklistFields.tagsList} $textType
+  ${TasklistFields.tagsList} $textType,
+  FOREIGN KEY(${TasklistFields.id}) REFERENCES $tableFolders(${folderFields.id})
 );
 
 CREATE TABLE $tableTasks (
@@ -58,6 +59,7 @@ CREATE TABLE $tableTasks (
   ${TasksFields.toDoNum} $nullIntType,
   ${TasksFields.doneNum} $nullIntType,
   ${TasksFields.picture} $nullTextType,
+  FOREIGN KEY(${TasksFields.idTasklist}) REFERENCES $tableTasklists(${TasklistFields.id})
 )
 ''');
   }
