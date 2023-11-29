@@ -20,10 +20,10 @@ class _TasksListState extends State<TasksList> {
   void initState() {
     super.initState();
 
-    refreshTasklists();
+    refreshTasks();
   }
 
-  Future refreshTasklists() async {
+  Future refreshTasks() async {
     setState(() => isLoading = true);
 
     tasks = await AmetaskDatabase.instance.readAllTasksFor(widget.tasklistId);
@@ -43,8 +43,8 @@ class _TasksListState extends State<TasksList> {
     });
 
     await AmetaskDatabase.instance.createTask(tasks.last);
-    
-    refreshTasklists();
+
+    refreshTasks();
   }
 
   @override
@@ -59,27 +59,37 @@ class _TasksListState extends State<TasksList> {
                 await Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => Placeholder()));
 
-                refreshTasklists();
+                refreshTasks();
               },
-              child: Container(
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2D2E2F),
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                ),
-                margin: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                  bottom: 15,
-                ),
-                child: Text(
-                  tasks[index].name,
-                  style: const TextStyle(
-                    color: Color(0xFFFEFEFE),
-                    fontSize: 25,
+              child: 
+              Row(children: [
+                Container(
+                  width: 35,
+                  child: CheckboxListTile(
+                    value: tasks[index].finished,
+                    onChanged: (bool? value) async {
+                      tasks[index] = tasks[index].copy(finished: value);
+                      await AmetaskDatabase.instance.updateTask(tasks[index]);
+                      refreshTasks();
+                    },
                   ),
                 ),
-              ),
+                Container(
+                  width: 300,
+                  child: TextFormField(
+                    initialValue: tasks[index].name,
+                    style: const TextStyle(
+                      color: Color(0xFFFEFEFE),
+                      fontSize: 20,
+                    ),
+                    onFieldSubmitted: (String? value) async {
+                      tasks[index] = tasks[index].copy(name: value);
+                      await AmetaskDatabase.instance.updateTask(tasks[index]);
+                      refreshTasks();
+                    },
+                  ),
+                ),
+              ]),
             ),
             separatorBuilder: (context, index) => const SizedBox(width: 10),
             itemCount: tasks.length,

@@ -78,7 +78,9 @@ class _DetailTasklistState extends State<DetailTasklist> {
                     ),
                   ],
                 ),
-                TasksList(tasklistId: widget.tasklistId,)
+                TasksList(
+                  tasklistId: widget.tasklistId,
+                )
               ],
             ),
     );
