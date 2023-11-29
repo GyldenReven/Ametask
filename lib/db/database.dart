@@ -31,9 +31,9 @@ class AmetaskDatabase {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
 
     const textType = 'TEXT NOT NULL';
-    const integerType = 'INTEGER NOT NULL'; 
+    const integerType = 'INTEGER NOT NULL';
     const boolType = 'BOOLEAN NOT NULL';
-    
+
     const nullIntType = 'BOOLEAN';
     const nullTextType = 'TEXT';
 
@@ -41,9 +41,11 @@ class AmetaskDatabase {
 CREATE TABLE $tableTags (
   ${TagFields.id} $idType,
   ${TagFields.name} $textType,
-  ${TagFields.color} $textType,
+  ${TagFields.color} $textType
 );
+''');
 
+    await db.execute('''
 CREATE TABLE $tableFolders (
   ${FolderFields.id} $idType,
   ${FolderFields.name} $textType,
@@ -51,7 +53,9 @@ CREATE TABLE $tableFolders (
   ${FolderFields.description} $textType,
   ${FolderFields.tagsList} $textType
 );
+''');
 
+    await db.execute('''
 CREATE TABLE $tableTasklists (
   ${TasklistFields.id} $idType,
   ${TasklistFields.idFolder} $integerType,
@@ -62,8 +66,9 @@ CREATE TABLE $tableTasklists (
   ${TasklistFields.lastModifDate} $textType,
   ${TasklistFields.tagsList} $textType,
   FOREIGN KEY(${TasklistFields.id}) REFERENCES $tableFolders(${FolderFields.id})
-);
+);''');
 
+    await db.execute('''
 CREATE TABLE $tableTasks (
   ${TasksFields.id} $idType,
   ${TasksFields.idTasklist} $integerType,
@@ -78,6 +83,7 @@ CREATE TABLE $tableTasks (
   FOREIGN KEY(${TasksFields.idTasklist}) REFERENCES $tableTasklists(${TasklistFields.id})
 )
 ''');
+  createFolder(const Folder(name: 'no_folder', color: 'white', description: 'tasklists without folder', tagsList: []));
   }
 
   Future<Tasklist> createTasklist(Tasklist tasklist) async {
@@ -85,17 +91,17 @@ CREATE TABLE $tableTasks (
 
     // autre solution (voir la vidéo à 13 min)
     final id = await db.insert(tableTasklists, tasklist.toJson());
-    return tasklist.copy(id : id);
+    return tasklist.copy(id: id);
   }
 
   Future<Tasklist> readTasklist(int id) async {
     final db = await instance.database;
 
     final maps = await db.query(
-      tableTasklists, 
+      tableTasklists,
       columns: TasklistFields.values,
       where: '${TasklistFields.id} = ?',
-      whereArgs: [id],   // replace the '?' (prevent sql injection attacks)
+      whereArgs: [id], // replace the '?' (prevent sql injection attacks)
     );
     if (maps.isNotEmpty) {
       return Tasklist.fromJson(maps.first);
@@ -123,7 +129,7 @@ CREATE TABLE $tableTasks (
       tasklist.toJson(),
       where: '${TasklistFields.id} = ?',
       whereArgs: [tasklist.id],
-    ); 
+    );
   }
 
   Future<int> deleteTasklist(int id) async {
@@ -134,6 +140,14 @@ CREATE TABLE $tableTasks (
       where: '${TasklistFields.id} = ?',
       whereArgs: [id],
     );
+  }
+
+  Future<Folder> createFolder(Folder folder) async {
+    final db = await instance.database;
+
+    // autre solution (voir la vidéo à 13 min)
+    final id = await db.insert(tableFolders, folder.toJson());
+    return folder.copy(id: id);
   }
 
   Future close() async {

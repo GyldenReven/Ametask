@@ -24,7 +24,7 @@ class Tasklist {
   final String description;
   final DateTime createDate;
   final DateTime lastModifDate;
-  final List<int> tagsList;
+  final List<String> tagsList;
 
   const Tasklist({
     this.id,
@@ -49,15 +49,16 @@ class Tasklist {
       };
 
   static Tasklist fromJson(Map<String, Object?> json) => Tasklist(
-        id: json[TasklistFields.id] as int?,
-        idFolder: json[TasklistFields.idFolder] as int,
-        name: json[TasklistFields.name] as String,
-        color: json[TasklistFields.color] as String,
-        description: json[TasklistFields.name] as String,
-        createDate: DateTime.parse(json[TasklistFields.createDate] as String),
-        lastModifDate: DateTime.parse(json[TasklistFields.lastModifDate] as String),
-        tagsList: json[TasklistFields.tagsList] as List<int>,
-      );
+      id: json[TasklistFields.id] as int?,
+      idFolder: json[TasklistFields.idFolder] as int,
+      name: json[TasklistFields.name] as String,
+      color: json[TasklistFields.color] as String,
+      description: json[TasklistFields.name] as String,
+      createDate: DateTime.parse(json[TasklistFields.createDate] as String),
+      lastModifDate:
+          DateTime.parse(json[TasklistFields.lastModifDate] as String),
+      tagsList: (json[TasklistFields.tagsList] as String? ?? "").split('-'),
+    );
 
   Tasklist copy({
     int? id,
@@ -67,7 +68,7 @@ class Tasklist {
     String? description,
     DateTime? createDate,
     DateTime? lastModifDate,
-    List<int>? tagsList,
+    List<String>? tagsList,
   }) =>
       Tasklist(
         id: id ?? this.id,

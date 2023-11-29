@@ -18,7 +18,7 @@ class Folder {
   final String name;
   final String color;
   final String description;
-  final List<int> tagsList;
+  final List<String> tagsList;
 
   const Folder({
     this.id,
@@ -41,7 +41,7 @@ class Folder {
         name: json[FolderFields.name] as String,
         color: json[FolderFields.color] as String,
         description: json[FolderFields.name] as String,
-        tagsList: json[FolderFields.tagsList] as List<int>,
+        tagsList: (json[FolderFields.tagsList] as String? ?? "").split('-'),
       );
 
   Folder copy({
@@ -49,7 +49,7 @@ class Folder {
     String? name,
     String? color,
     String? description,
-    List<int>? tagsList,
+    List<String>? tagsList,
   }) =>
       Folder(
         id: id ?? this.id,

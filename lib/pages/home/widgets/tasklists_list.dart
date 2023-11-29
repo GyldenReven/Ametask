@@ -56,7 +56,7 @@ class _TasklistListsState extends State<TasklistLists> {
           description: "",
           createDate: DateTime.now(),
           lastModifDate: DateTime.now(),
-          tagsList: []));
+          tagsList: ["0"]));
     });
 
     await AmetaskDatabase.instance.createTasklist(tasklists.last);
