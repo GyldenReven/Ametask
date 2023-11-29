@@ -67,7 +67,6 @@ class Tasklist {
     String? description,
     DateTime? createDate,
     DateTime? lastModifDate,
-    String? lastModifHour,
     List<int>? tagsList,
   }) =>
       Tasklist(
