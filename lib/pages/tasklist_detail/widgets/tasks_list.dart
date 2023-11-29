@@ -1,20 +1,20 @@
-import 'package:ametask/models/tasklists_model.dart';
+import 'package:ametask/models/tasks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
-import 'package:ametask/pages/tasklist_detail/tasklist_detail.dart';
 
-class TasklistLists extends StatefulWidget {
-  const TasklistLists({super.key});
+class TasksList extends StatefulWidget {
+  final int tasklistId;
+  const TasksList({super.key, required this.tasklistId});
 
   @override
-  State<TasklistLists> createState() => _TasklistListsState.initState();
+  State<TasksList> createState() => _TasksListState.initState();
 }
 
-class _TasklistListsState extends State<TasklistLists> {
-  List<Tasklist> tasklists = [];
+class _TasksListState extends State<TasksList> {
+  List<Task> tasks = [];
   bool isLoading = false;
 
-  _TasklistListsState.initState();
+  _TasksListState.initState();
 
   @override
   void initState() {
@@ -23,34 +23,26 @@ class _TasklistListsState extends State<TasklistLists> {
     refreshTasklists();
   }
 
-  @override
-  void dispose() {
-    AmetaskDatabase.instance.close();
-
-    super.dispose();
-  }
-
   Future refreshTasklists() async {
     setState(() => isLoading = true);
 
-    tasklists = await AmetaskDatabase.instance.readAllTasklists();
+    tasks = await AmetaskDatabase.instance.readAllTasksFor(widget.tasklistId);
 
     setState(() => isLoading = false);
   }
 
-  Future addTasklist() async {
+  Future addTask() async {
     setState(() {
-      tasklists.add(Tasklist(
-          idFolder: 0,
-          name: 'Title',
-          color: "white",
+      tasks.add(Task(
+          idTasklist: widget.tasklistId,
+          name: 'task',
           description: "",
-          createDate: DateTime.now(),
-          lastModifDate: DateTime.now(),
-          tagsList: ["0"]));
+          position: tasks.length,
+          type: 'checklist',
+          finished: false));
     });
 
-    await AmetaskDatabase.instance.createTasklist(tasklists.last);
+    await AmetaskDatabase.instance.createTask(tasks.last);
     
     refreshTasklists();
   }
@@ -58,23 +50,21 @@ class _TasklistListsState extends State<TasklistLists> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 1,
       child: Stack(
         children: [
           ListView.separated(
             shrinkWrap: true,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () async {
-                await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => DetailTasklist(tasklistId: tasklists[index].id ?? 0)
-                ));
+                await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Placeholder()));
 
                 refreshTasklists();
               },
               child: Container(
                 height: 60,
                 decoration: const BoxDecoration(
-                  color:  Color(0xFF2D2E2F),
+                  color: Color(0xFF2D2E2F),
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
                 margin: const EdgeInsets.only(
@@ -83,7 +73,7 @@ class _TasklistListsState extends State<TasklistLists> {
                   bottom: 15,
                 ),
                 child: Text(
-                  tasklists[index].name,
+                  tasks[index].name,
                   style: const TextStyle(
                     color: Color(0xFFFEFEFE),
                     fontSize: 25,
@@ -92,7 +82,7 @@ class _TasklistListsState extends State<TasklistLists> {
               ),
             ),
             separatorBuilder: (context, index) => const SizedBox(width: 10),
-            itemCount: tasklists.length,
+            itemCount: tasks.length,
           ),
           Positioned(
             bottom: 15,
@@ -103,7 +93,7 @@ class _TasklistListsState extends State<TasklistLists> {
                 color: const Color(0xFF9B72CF),
               ),
               child: IconButton(
-                  onPressed: addTasklist,
+                  onPressed: addTask,
                   icon: const Icon(Icons.add, color: Color(0xFFFEFEFE))),
             ),
           ),

@@ -61,7 +61,7 @@ class Task {
         name: json[TasksFields.name] as String,
         description: json[TasksFields.description] as String,
         type: json[TasksFields.type] as String,
-        finished: json[TasksFields.finished] as bool,
+        finished: json[TasksFields.finished] == 1,
         toDoNum: json[TasksFields.toDoNum] as int?,
         doneNum: json[TasksFields.doneNum] as int?,
         picture: json[TasksFields.picture] as String?,

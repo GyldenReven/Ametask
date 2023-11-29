@@ -1,6 +1,7 @@
 import 'package:ametask/models/tasklists_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
+import 'package:ametask/pages/tasklist_detail/widgets/tasks_list.dart';
 
 class DetailTasklist extends StatefulWidget {
   final int tasklistId;
@@ -47,31 +48,37 @@ class _DetailTasklistState extends State<DetailTasklist> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top + 5,
-                    left: 15,
-                    right: 15,
-                  ),
-                  child: TextFormField(
-                    initialValue: tasklist.name,
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: Color(0xFFFEFEFE),
-                    ),
-                    //controller: TextEditingController(),
-                    onFieldSubmitted: (String value) async {
-                      tasklist = tasklist.copy(name: value);
+                Stack(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).padding.top + 5,
+                        left: 15,
+                        right: 15,
+                      ),
+                      child: TextFormField(
+                        initialValue: tasklist.name,
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Color(0xFFFEFEFE),
+                        ),
+                        //controller: TextEditingController(),
+                        onFieldSubmitted: (String value) async {
+                          tasklist = tasklist.copy(name: value);
 
-                      await AmetaskDatabase.instance.updateTasklist(tasklist);
-                    },
-                  ),
+                          await AmetaskDatabase.instance
+                              .updateTasklist(tasklist);
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 10,
+                      child: deleteButton(context),
+                    ),
+                  ],
                 ),
-                Container(
-                  height: 100,
-                  color: Colors.purpleAccent,
-                  child: deleteButton(context),
-                ),
+                TasksList(tasklistId: widget.tasklistId,)
               ],
             ),
     );
@@ -79,6 +86,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
 
   Widget deleteButton(BuildContext context) => IconButton(
         icon: const Icon(Icons.delete),
+        color: Color(0xFFFEFEFE),
         onPressed: () async {
           await AmetaskDatabase.instance.deleteTasklist(widget.tasklistId);
 

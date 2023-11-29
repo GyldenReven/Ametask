@@ -83,7 +83,11 @@ CREATE TABLE $tableTasks (
   FOREIGN KEY(${TasksFields.idTasklist}) REFERENCES $tableTasklists(${TasklistFields.id})
 )
 ''');
-  createFolder(const Folder(name: 'no_folder', color: 'white', description: 'tasklists without folder', tagsList: []));
+    createFolder(const Folder(
+        name: 'no_folder',
+        color: 'white',
+        description: 'tasklists without folder',
+        tagsList: []));
   }
 
   Future<Tasklist> createTasklist(Tasklist tasklist) async {
@@ -92,6 +96,14 @@ CREATE TABLE $tableTasks (
     // autre solution (voir la vidéo à 13 min)
     final id = await db.insert(tableTasklists, tasklist.toJson());
     return tasklist.copy(id: id);
+  }
+
+  Future<Task> createTask(Task task) async {
+    final db = await instance.database;
+
+    // autre solution (voir la vidéo à 13 min)
+    final id = await db.insert(tableTasks, task.toJson());
+    return task.copy(id: id);
   }
 
   Future<Tasklist> readTasklist(int id) async {
@@ -121,6 +133,20 @@ CREATE TABLE $tableTasks (
     return result.map((json) => Tasklist.fromJson(json)).toList();
   }
 
+  Future<List<Task>> readAllTasksFor(int idTasklist) async {
+    final db = await instance.database;
+
+    const orderBy = '${TasksFields.position} ASC';
+
+    // autre méthode avec le rawQuery
+    final result = await db.query(tableTasks,
+        where: '${TasksFields.idTasklist} = ?',
+        whereArgs: [idTasklist],
+        orderBy: orderBy);
+
+    return result.map((json) => Task.fromJson(json)).toList();
+  }
+
   Future updateTasklist(Tasklist tasklist) async {
     final db = await instance.database;
 
@@ -134,6 +160,12 @@ CREATE TABLE $tableTasks (
 
   Future<int> deleteTasklist(int id) async {
     final db = await instance.database;
+
+    await db.delete(
+      tableTasks,
+      where: '${TasksFields.idTasklist} = ?',
+      whereArgs: [id],
+    );
 
     return await db.delete(
       tableTasklists,
