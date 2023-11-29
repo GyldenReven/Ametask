@@ -61,8 +61,7 @@ class _TasksListState extends State<TasksList> {
 
                 refreshTasks();
               },
-              child: 
-              Row(children: [
+              child: Row(children: [
                 Container(
                   width: 35,
                   child: CheckboxListTile(
