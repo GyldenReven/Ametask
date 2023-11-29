@@ -37,8 +37,10 @@ CREATE TABLE $tableTasklists (
   ${TasklistFields.idFolder} $integerType,
   ${TasklistFields.name} $textType,
   ${TasklistFields.color} $textType,
+  ${TasklistFields.description} $textType,
   ${TasklistFields.createDate} $textType,
-  ${TasklistFields.lastModifDate} $textType
+  ${TasklistFields.lastModifDate} $textType,
+  ${TasklistFields.tagsList} $textType
 )
 ''');
   }
@@ -70,7 +72,7 @@ CREATE TABLE $tableTasklists (
   Future<List<Tasklist>> readAllTasklists() async {
     final db = await instance.database;
 
-    final orderBy = '${TasklistFields.createDate} ASC';
+    const orderBy = '${TasklistFields.createDate} ASC';
 
     // autre méthode avec le rawQuery
     final result = await db.query(tableTasklists, orderBy: orderBy);

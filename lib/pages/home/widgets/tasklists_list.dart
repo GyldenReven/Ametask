@@ -16,8 +16,10 @@ class _TasklistListsState extends State<TasklistLists> {
         idFolder: 0,
         name: 'Title',
         color: "white",
+        description: "",
         createDate: DateTime.now(),
-        lastModifDate: DateTime.now())
+        lastModifDate: DateTime.now(),
+        tagsList: [])
   ];
   bool isLoading = false;
 
@@ -51,8 +53,10 @@ class _TasklistListsState extends State<TasklistLists> {
           idFolder: 0,
           name: 'Title',
           color: "white",
+          description: "",
           createDate: DateTime.now(),
-          lastModifDate: DateTime.now()));
+          lastModifDate: DateTime.now(),
+          tagsList: []));
     });
 
     await AmetaskDatabase.instance.createTasklist(tasklists.last);
