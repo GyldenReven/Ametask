@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
       body: Container(
         child: Column(children: [Search(), TasklistLists()]),
       ),
-      backgroundColor: Color(0xFF232325),
+      backgroundColor: const Color(0xFF1c1c21),
       bottomNavigationBar: NavigationBar(),
     );
   }
@@ -21,12 +21,12 @@ class HomePage extends StatelessWidget {
       child: Container(
         child: ClipRRect(
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
           child: BottomNavigationBar(
-            backgroundColor: Color(0xFF1D1D1D),
-            selectedItemColor: const Color(0xFFA562E4),
+            backgroundColor: const Color(0xFF26262c),
+            selectedItemColor: const Color(0xFF9B71CF),
             selectedFontSize: 12,
             unselectedFontSize: 12,
             unselectedItemColor: Colors.grey.withOpacity(0.7),

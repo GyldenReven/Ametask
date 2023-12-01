@@ -19,9 +19,9 @@ class Search extends StatelessWidget {
           children: [
             TextField(
               cursorColor: const Color(0xFF9B72CF),
-              style: const TextStyle(color: Colors.white70),
+              style: const TextStyle(color: Color(0xFFFBFBFB)),
               decoration: InputDecoration(
-                fillColor: const Color(0xFF2D2E2F),
+                fillColor: const Color(0xFF26262c),
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -37,7 +37,7 @@ class Search extends StatelessWidget {
                 prefixIcon: const Icon(
                   Icons.search_outlined,
                   size: 30,
-                  color: Colors.white70,
+                  color: Color(0xFFFBFBFB),
                 ),
                 hintText: "Search for a tasklist",
                 hintStyle: TextStyle(
@@ -57,7 +57,7 @@ class Search extends StatelessWidget {
                 ),
                 child: const Icon(
                   Icons.manage_search,
-                  color: Colors.white,
+                  color: Color(0xFFFBFBFB),
                   size: 30,
                 ),
               ),

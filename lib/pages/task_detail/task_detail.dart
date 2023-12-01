@@ -35,8 +35,8 @@ class _TaskDetailState extends State<TaskDetail> {
 
     task = await AmetaskDatabase.instance.readTask(widget.taskId);
     fromTasklist = await AmetaskDatabase.instance.readTasklist(task.idTasklist);
-    if (fromTasklist.name.length > 9) {
-      shortTlName = fromTasklist.name.substring(0, 8) + "...";
+    if (fromTasklist.name.length > 13) {
+      shortTlName = fromTasklist.name.substring(0, 11) + "...";
     } else {
       shortTlName = fromTasklist.name;
     }
@@ -47,10 +47,10 @@ class _TaskDetailState extends State<TaskDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2D2E2F),
+      backgroundColor: const Color(0xFF26262C),
       appBar: AppBar(
         title: Text(isLoading ? "loading..." : shortTlName + "/" + task.name),
-        backgroundColor: const Color(0xFF202020),
+        backgroundColor: const Color(0xFF2F3037),
         foregroundColor: const Color(0xFFFBFBFB),
         actions: <Widget>[deleteButton(context)],
       ),
@@ -112,6 +112,7 @@ class _TaskDetailState extends State<TaskDetail> {
                           padding: EdgeInsets.only(left: 5),
                           width: 40,
                           child: CheckboxListTile(
+                            checkboxSemanticLabel: 'done ?',
                             value: task.finished,
                             onChanged: (bool? value) async {
                               task = task.copy(finished: value);

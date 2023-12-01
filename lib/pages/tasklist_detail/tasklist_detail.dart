@@ -39,10 +39,10 @@ class _DetailTasklistState extends State<DetailTasklist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2D2E2F),
+      backgroundColor: const Color(0xFF26262C),
       appBar: AppBar(
         title: Text(isLoading ? "loading..." : tasklist.name),
-        backgroundColor: const Color(0xFF202020),
+        backgroundColor: const Color(0xFF2F3037),
         foregroundColor: const Color(0xFFFBFBFB),
         actions: <Widget>[deleteButton(context)],
       ),

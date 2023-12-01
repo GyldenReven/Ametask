@@ -107,7 +107,7 @@ class _TasksListState extends State<TasksList> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: const Color(0xFF9B72CF),
+                color: const Color(0xFF9B71CF),
               ),
               child: IconButton(
                   onPressed: addTask,

@@ -78,7 +78,7 @@ class _TasklistListsState extends State<TasklistLists> {
               child: Container(
                   //height: 60,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF2D2E2F),
+                    color: Color(0xFF2f3037),
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
                   padding: const EdgeInsets.all(7),
