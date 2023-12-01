@@ -25,10 +25,10 @@ class _DetailTasklistState extends State<DetailTasklist> {
   void initState() {
     super.initState();
 
-    refreshTasklists();
+    refreshTasklist();
   }
 
-  Future refreshTasklists() async {
+  Future refreshTasklist() async {
     setState(() => isLoading = true);
 
     tasklist = await AmetaskDatabase.instance.readTasklist(widget.tasklistId);
@@ -39,46 +39,62 @@ class _DetailTasklistState extends State<DetailTasklist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2D2E2F),
+      backgroundColor: const Color(0xFF2D2E2F),
+      appBar: AppBar(
+        title: Text(isLoading ? "loading..." : tasklist.name),
+        backgroundColor: const Color(0xFF202020),
+        foregroundColor: const Color(0xFFFBFBFB),
+        actions: <Widget>[deleteButton(context)],
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).padding.top + 5,
-                        left: 15,
-                        right: 15,
-                      ),
-                      child: TextFormField(
-                        maxLines: null,
-                        keyboardType: TextInputType.multiline,
-                        initialValue: tasklist.name,
-                        style: const TextStyle(
-                          fontSize: 25,
-                          color: Color(0xFFFEFEFE),
-                        ),
-                        //controller: TextEditingController(),
-                        onChanged: (String value) async {
-                          tasklist = tasklist.copy(name: value);
+                Container(
+                  padding: const EdgeInsets.only(
+                    left: 15,
+                    right: 15,
+                  ),
+                  child: TextFormField(
+                    maxLines: null,
+                    keyboardType: TextInputType.text,
+                    initialValue: tasklist.name,
+                    style: const TextStyle(
+                      fontSize: 25,
+                      color: Color(0xFFFEFEFE),
+                    ),
+                    //controller: TextEditingController(),
+                    onChanged: (String value) async {
+                      tasklist = tasklist.copy(name: value);
 
-                          await AmetaskDatabase.instance
-                              .updateTasklist(tasklist);
-                        },
-                      ),
+                      await AmetaskDatabase.instance.updateTasklist(tasklist);
+                    },
+                    onFieldSubmitted: (String value) => refreshTasklist(),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(
+                    left: 15,
+                    right: 15,
+                  ),
+                  child: TextFormField(
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    initialValue: tasklist.description,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Color(0xFFFEFEFE),
                     ),
-                    Positioned(
-                      bottom: 5,
-                      right: 10,
-                      child: deleteButton(context),
-                    ),
-                  ],
+                    onChanged: (String value) async {
+                      tasklist = tasklist.copy(description: value);
+
+                      await AmetaskDatabase.instance.updateTasklist(tasklist);
+                    },
+                  ),
                 ),
                 TasksList(
                   tasklistId: widget.tasklistId,
-                )
+                ),
               ],
             ),
     );
@@ -86,7 +102,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
 
   Widget deleteButton(BuildContext context) => IconButton(
         icon: const Icon(Icons.delete),
-        color: Color(0xFFFEFEFE),
+        color: const Color(0xFFFBFBFB),
         onPressed: () async {
           await AmetaskDatabase.instance.deleteTasklist(widget.tasklistId);
 

@@ -44,7 +44,7 @@ class _TasklistListsState extends State<TasklistLists> {
           idFolder: 0,
           name: 'Title',
           color: "white",
-          description: "",
+          description: "description",
           createDate: DateTime.now(),
           lastModifDate: DateTime.now(),
           tagsList: ["0"]));
@@ -76,24 +76,39 @@ class _TasklistListsState extends State<TasklistLists> {
                 refreshTasklists();
               },
               child: Container(
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2D2E2F),
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                ),
-                margin: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                  bottom: 15,
-                ),
-                child: Text(
-                  tasklists[index].name,
-                  style: const TextStyle(
-                    color: Color(0xFFFEFEFE),
-                    fontSize: 25,
+                  //height: 60,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF2D2E2F),
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
-                ),
-              ),
+                  padding: const EdgeInsets.all(7),
+                  margin: const EdgeInsets.only(
+                    left: 15,
+                    right: 15,
+                    bottom: 15,
+                  ),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          tasklists[index].name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Color(0xFFFEFEFE),
+                            fontSize: 25,
+                          ),
+                        ),
+                        Text(
+                          tasklists[index].description,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Color(0xFFFEFEFE),
+                            fontSize: 16,
+                          ),
+                        ),
+                      ])),
             ),
             separatorBuilder: (context, index) => const SizedBox(width: 10),
             itemCount: tasklists.length,

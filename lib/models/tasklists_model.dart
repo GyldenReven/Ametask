@@ -3,7 +3,7 @@ const String tableTasklists = 'tasklists';
 class TasklistFields {
   static final List<String> values = [
     /// add all fields
-    id, idFolder, name, color, createDate, lastModifDate,
+    id, idFolder, name, color, description, createDate, lastModifDate, tagsList,
   ];
 
   static const String id = '_id';
@@ -48,17 +48,19 @@ class Tasklist {
         TasklistFields.tagsList: tagsList.join("-"),
       };
 
-  static Tasklist fromJson(Map<String, Object?> json) => Tasklist(
+  static Tasklist fromJson(Map<String, Object?> json) { 
+    print(json);
+    return Tasklist(
       id: json[TasklistFields.id] as int?,
       idFolder: json[TasklistFields.idFolder] as int,
       name: json[TasklistFields.name] as String,
       color: json[TasklistFields.color] as String,
-      description: json[TasklistFields.name] as String,
+      description: json[TasklistFields.description] as String,
       createDate: DateTime.parse(json[TasklistFields.createDate] as String),
       lastModifDate:
           DateTime.parse(json[TasklistFields.lastModifDate] as String),
       tagsList: (json[TasklistFields.tagsList] as String? ?? "").split('-'),
-    );
+    );}
 
   Tasklist copy({
     int? id,

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:ametask/models/tasks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
@@ -39,7 +37,7 @@ class _TasksListState extends State<TasksList> {
       tasks.add(Task(
           idTasklist: widget.tasklistId,
           name: 'task',
-          description: "",
+          description: "description",
           position: tasks.length,
           type: 'checklist',
           finished: false));
@@ -50,8 +48,7 @@ class _TasksListState extends State<TasksList> {
     refreshTasks();
 
     await Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            TaskDetail(taskId: newTask.id!)));
+        builder: (context) => TaskDetail(taskId: newTask.id!)));
   }
 
   @override
@@ -85,7 +82,7 @@ class _TasksListState extends State<TasksList> {
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width-50,
+                    width: MediaQuery.of(context).size.width - 50,
                     child: Text(
                       tasks[index].name,
                       style: const TextStyle(
@@ -97,7 +94,11 @@ class _TasksListState extends State<TasksList> {
                 ]),
               ),
             ),
-            separatorBuilder: (context, index) => Container(width: 10, height: 3, color: Color.fromARGB(26, 155, 155, 155),),
+            separatorBuilder: (context, index) => Container(
+              width: 10,
+              height: 3,
+              color: Color.fromARGB(26, 155, 155, 155),
+            ),
             itemCount: tasks.length,
           ),
           Positioned(
