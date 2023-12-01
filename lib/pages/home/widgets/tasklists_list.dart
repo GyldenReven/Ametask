@@ -50,9 +50,13 @@ class _TasklistListsState extends State<TasklistLists> {
           tagsList: ["0"]));
     });
 
-    await AmetaskDatabase.instance.createTasklist(tasklists.last);
-    
+    Tasklist newTaskList =
+        await AmetaskDatabase.instance.createTasklist(tasklists.last);
+
     refreshTasklists();
+
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => DetailTasklist(tasklistId: newTaskList.id!)));
   }
 
   @override
@@ -66,15 +70,15 @@ class _TasklistListsState extends State<TasklistLists> {
             itemBuilder: (context, index) => GestureDetector(
               onTap: () async {
                 await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => DetailTasklist(tasklistId: tasklists[index].id ?? 0)
-                ));
+                    builder: (context) =>
+                        DetailTasklist(tasklistId: tasklists[index].id!)));
 
                 refreshTasklists();
               },
               child: Container(
                 height: 60,
                 decoration: const BoxDecoration(
-                  color:  Color(0xFF2D2E2F),
+                  color: Color(0xFF2D2E2F),
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
                 margin: const EdgeInsets.only(

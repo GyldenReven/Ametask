@@ -147,6 +147,22 @@ CREATE TABLE $tableTasks (
     return result.map((json) => Task.fromJson(json)).toList();
   }
 
+  Future<Task> readTask(int id) async {
+    final db = await instance.database;
+
+    final maps = await db.query(
+      tableTasks,
+      columns: TasksFields.values,
+      where: '${TasksFields.id} = ?',
+      whereArgs: [id], // replace the '?' (prevent sql injection attacks)
+    );
+    if (maps.isNotEmpty) {
+      return Task.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
   Future updateTasklist(Tasklist tasklist) async {
     final db = await instance.database;
 
@@ -185,6 +201,15 @@ CREATE TABLE $tableTasks (
     );
   }
 
+  Future<int> deleteTask(int id) async {
+    final db = await instance.database;
+
+    return await db.delete(
+      tableTasks,
+      where: '${TasksFields.id} = ?',
+      whereArgs: [id],
+    );
+  }
   Future<Folder> createFolder(Folder folder) async {
     final db = await instance.database;
 

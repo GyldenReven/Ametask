@@ -1,25 +1,24 @@
-import 'package:ametask/models/tasklists_model.dart';
 import 'package:flutter/material.dart';
+import 'package:ametask/models/tasks_model.dart';
 import 'package:ametask/db/database.dart';
-import 'package:ametask/pages/tasklist_detail/widgets/tasks_list.dart';
 
-class DetailTasklist extends StatefulWidget {
-  final int tasklistId;
+class TaskDetail extends StatefulWidget {
+  final int taskId;
 
-  const DetailTasklist({
-    Key? key,
-    required this.tasklistId,
-  }) : super(key: key);
+  const TaskDetail({
+    super.key,
+    required this.taskId,
+  });
 
   @override
-  State<DetailTasklist> createState() => _DetailTasklistState.initState();
+  State<TaskDetail> createState() => _TaskDetailState.initState();
 }
 
-class _DetailTasklistState extends State<DetailTasklist> {
-  late Tasklist tasklist;
+class _TaskDetailState extends State<TaskDetail> {
   bool isLoading = false;
+  late Task task;
 
-  _DetailTasklistState.initState();
+  _TaskDetailState.initState();
 
   @override
   void initState() {
@@ -31,7 +30,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
   Future refreshTasklists() async {
     setState(() => isLoading = true);
 
-    tasklist = await AmetaskDatabase.instance.readTasklist(widget.tasklistId);
+    task = await AmetaskDatabase.instance.readTask(widget.taskId);
 
     setState(() => isLoading = false);
   }
@@ -55,17 +54,16 @@ class _DetailTasklistState extends State<DetailTasklist> {
                       child: TextFormField(
                         maxLines: null,
                         keyboardType: TextInputType.multiline,
-                        initialValue: tasklist.name,
-                        style: const TextStyle(
+                        initialValue: task.name,
+                        style: TextStyle(
                           fontSize: 25,
                           color: Color(0xFFFEFEFE),
                         ),
                         //controller: TextEditingController(),
                         onChanged: (String value) async {
-                          tasklist = tasklist.copy(name: value);
+                          task = task.copy(name: value);
 
-                          await AmetaskDatabase.instance
-                              .updateTasklist(tasklist);
+                          await AmetaskDatabase.instance.updateTask(task);
                         },
                       ),
                     ),
@@ -76,9 +74,6 @@ class _DetailTasklistState extends State<DetailTasklist> {
                     ),
                   ],
                 ),
-                TasksList(
-                  tasklistId: widget.tasklistId,
-                )
               ],
             ),
     );
@@ -88,7 +83,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
         icon: const Icon(Icons.delete),
         color: Color(0xFFFEFEFE),
         onPressed: () async {
-          await AmetaskDatabase.instance.deleteTasklist(widget.tasklistId);
+          await AmetaskDatabase.instance.deleteTask(widget.taskId);
 
           Navigator.of(context).pop();
         },
