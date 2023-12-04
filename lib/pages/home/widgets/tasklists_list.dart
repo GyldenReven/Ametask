@@ -1,7 +1,9 @@
 import 'package:ametask/models/tasklists_model.dart';
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
 import 'package:ametask/pages/tasklist_detail/tasklist_detail.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TasklistLists extends StatefulWidget {
   const TasklistLists({super.key});
@@ -76,12 +78,11 @@ class _TasklistListsState extends State<TasklistLists> {
                 refreshTasklists();
               },
               child: Container(
-                  //height: 60,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF2f3037),
+                    color: Color(0xFF383E6E),
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
-                  padding: const EdgeInsets.all(7),
+                  padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.only(
                     left: 15,
                     right: 15,
@@ -94,20 +95,18 @@ class _TasklistListsState extends State<TasklistLists> {
                           tasklists[index].name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Color(0xFFFEFEFE),
-                            fontSize: 25,
-                          ),
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                              fontSize: 20),
                         ),
-                        Text(
-                          tasklists[index].description,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Color(0xFFFEFEFE),
-                            fontSize: 16,
-                          ),
-                        ),
+                        Text(tasklists[index].description,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 16)),
                       ])),
             ),
             separatorBuilder: (context, index) => const SizedBox(width: 10),
@@ -116,14 +115,27 @@ class _TasklistListsState extends State<TasklistLists> {
           Positioned(
             bottom: 15,
             right: 15,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: const Color(0xFF9B72CF),
+            child: GestureDetector(
+              onTap: addTasklist,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: const Color(0xFF9B72CF),
+                ),
+                padding: const EdgeInsetsDirectional.symmetric(vertical: 8, horizontal: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      'New Tasklist',
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    const Icon(FeatherIcons.plus, color: Colors.white),
+                  ],
+                ),
               ),
-              child: IconButton(
-                  onPressed: addTasklist,
-                  icon: const Icon(Icons.add, color: Color(0xFFFEFEFE))),
             ),
           ),
         ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ametask/pages/home/widgets/search.dart';
 import 'package:ametask/pages/home/widgets/tasklists_list.dart';
+import 'package:feather_icons/feather_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,7 +13,7 @@ class HomePage extends StatelessWidget {
       body: Container(
         child: Column(children: [Search(), TasklistLists()]),
       ),
-      backgroundColor: const Color(0xFF1c1c21),
+      backgroundColor: const Color(0xFF2C3158),
       bottomNavigationBar: NavigationBar(),
     );
   }
@@ -25,19 +27,24 @@ class HomePage extends StatelessWidget {
             topRight: Radius.circular(20),
           ),
           child: BottomNavigationBar(
-            backgroundColor: const Color(0xFF26262c),
+            backgroundColor: const Color(0xFF3F4678),
             selectedItemColor: const Color(0xFF9B71CF),
             selectedFontSize: 12,
             unselectedFontSize: 12,
-            unselectedItemColor: Colors.grey.withOpacity(0.7),
+            selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w700),
+            unselectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w700),
+            unselectedItemColor: const Color(0xFFFFFFFF),
             type: BottomNavigationBarType.fixed,
             items: [
-              const BottomNavigationBarItem(
+              BottomNavigationBarItem(
                 label: 'home',
-                icon: Icon(
-                  Icons.home_rounded,
+                icon: Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
+                  child: const Icon(
+                  FeatherIcons.home,
                   size: 50,
-                ),
+                ),),
               ),
               BottomNavigationBarItem(
                 label: "folders",
@@ -45,9 +52,9 @@ class HomePage extends StatelessWidget {
                   margin: const EdgeInsets.all(5),
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
-                    Icons.folder_rounded,
-                    size: 30,
-                    color: Color(0xFFEFEFEF),
+                    FeatherIcons.folder,
+                    size: 50,
+                    color: Color(0xFFFFFFFF),
                   ),
                 ),
               ),
@@ -57,9 +64,9 @@ class HomePage extends StatelessWidget {
                   margin: const EdgeInsets.all(5),
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
-                    Icons.more_horiz_rounded,
-                    size: 30,
-                    color: Color(0xFFEFEFEF),
+                    FeatherIcons.moreHorizontal,
+                    size: 50,
+                    color: Color(0xFFFFFFFF),
                   ),
                 ),
               ),
@@ -69,9 +76,9 @@ class HomePage extends StatelessWidget {
                   margin: const EdgeInsets.all(5),
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
-                    Icons.settings,
-                    size: 30,
-                    color: Color(0xFFEFEFEF),
+                    FeatherIcons.settings,
+                    size: 50,
+                    color: Color(0xFFFFFFFF),
                   ),
                 ),
               ),

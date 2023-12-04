@@ -2,6 +2,8 @@ import 'package:ametask/models/tasks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
 import 'package:ametask/pages/task_detail/task_detail.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:getwidget/getwidget.dart';
 
 class TasksList extends StatefulWidget {
   final int tasklistId;
@@ -67,6 +69,9 @@ class _TasksListState extends State<TasksList> {
                 refreshTasks();
               },
               child: Container(
+                decoration: BoxDecoration(
+                    color: Color(0xFF2C3158),
+                    borderRadius: BorderRadius.circular(15)),
                 child: Row(children: [
                   // penser au stack + positioned !!!
                   Container(
@@ -82,22 +87,20 @@ class _TasksListState extends State<TasksList> {
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width - 50,
+                    width: MediaQuery.of(context).size.width - 70,
                     child: Text(
                       tasks[index].name,
-                      style: const TextStyle(
-                        color: Color(0xFFFEFEFE),
-                        fontSize: 20,
-                      ),
+                      style: GoogleFonts.poppins(
+                          color: Color(0xFFFEFEFE),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
                 ]),
               ),
             ),
             separatorBuilder: (context, index) => Container(
-              width: 10,
-              height: 3,
-              color: Color.fromARGB(26, 155, 155, 155),
+              height: 8,
             ),
             itemCount: tasks.length,
           ),

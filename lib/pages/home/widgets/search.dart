@@ -1,3 +1,4 @@
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatelessWidget {
@@ -21,7 +22,7 @@ class Search extends StatelessWidget {
               cursorColor: const Color(0xFF9B72CF),
               style: const TextStyle(color: Color(0xFFFBFBFB)),
               decoration: InputDecoration(
-                fillColor: const Color(0xFF26262c),
+                fillColor: const Color(0xFF3F4678),
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -35,7 +36,7 @@ class Search extends StatelessWidget {
                   vertical: 20,
                 ),
                 prefixIcon: const Icon(
-                  Icons.search_outlined,
+                  FeatherIcons.search,
                   size: 30,
                   color: Color(0xFFFBFBFB),
                 ),
@@ -56,7 +57,7 @@ class Search extends StatelessWidget {
                   color: const Color(0xFF9B72CF),
                 ),
                 child: const Icon(
-                  Icons.manage_search,
+                  FeatherIcons.filter,
                   color: Color(0xFFFBFBFB),
                   size: 30,
                 ),
