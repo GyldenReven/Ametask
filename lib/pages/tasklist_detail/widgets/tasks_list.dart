@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
 import 'package:ametask/pages/task_detail/task_detail.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:getwidget/getwidget.dart';
+import 'package:feather_icons/feather_icons.dart';
 
 class TasksList extends StatefulWidget {
   final int tasklistId;
@@ -75,16 +75,27 @@ class _TasksListState extends State<TasksList> {
                 child: Row(children: [
                   // penser au stack + positioned !!!
                   Container(
-                    padding: EdgeInsets.only(left: 5),
+                    padding: const EdgeInsets.only(left: 5),
                     width: 40,
-                    child: CheckboxListTile(
-                      value: tasks[index].finished,
-                      onChanged: (bool? value) async {
-                        tasks[index] = tasks[index].copy(finished: value);
-                        await AmetaskDatabase.instance.updateTask(tasks[index]);
-                        refreshTasks();
-                      },
-                    ),
+                    child: Checkbox(
+                        activeColor: const Color(0xFF9B71CF),
+                        value: tasks[index].finished,
+                        onChanged: (bool? value) async {
+                          tasks[index] = tasks[index].copy(finished: value);
+                          await AmetaskDatabase.instance
+                              .updateTask(tasks[index]);
+                          refreshTasks();
+                        },
+                        side: BorderSide.none,
+                        fillColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled)) {
+                            return Colors.orange.withOpacity(.32);
+                          } else if (tasks[index].finished) {
+                            return const Color(0xFF9B71CF);
+                          }
+                          return const Color(0xFF3F4678);
+                        })),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width - 70,
@@ -107,14 +118,27 @@ class _TasksListState extends State<TasksList> {
           Positioned(
             bottom: 15,
             right: 15,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: const Color(0xFF9B71CF),
+            child: GestureDetector(
+              onTap: addTask,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: const Color(0xFF9B72CF),
+                ),
+                padding: const EdgeInsetsDirectional.symmetric(vertical: 8, horizontal: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      'New Task',
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    const Icon(FeatherIcons.plus, color: Colors.white),
+                  ],
+                ),
               ),
-              child: IconButton(
-                  onPressed: addTask,
-                  icon: const Icon(Icons.add, color: Color(0xFFFEFEFE))),
             ),
           ),
         ],

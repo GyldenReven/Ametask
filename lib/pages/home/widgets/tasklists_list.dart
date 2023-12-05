@@ -119,7 +119,7 @@ class _TasklistListsState extends State<TasklistLists> {
               onTap: addTasklist,
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(30),
                   color: const Color(0xFF9B72CF),
                 ),
                 padding: const EdgeInsetsDirectional.symmetric(vertical: 8, horizontal: 10),

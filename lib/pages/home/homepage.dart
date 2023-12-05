@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                   FeatherIcons.home,
-                  size: 50,
+                  size: 30,
                 ),),
               ),
               BottomNavigationBarItem(
@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                     FeatherIcons.folder,
-                    size: 50,
+                    size: 30,
                     color: Color(0xFFFFFFFF),
                   ),
                 ),
@@ -65,7 +65,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                     FeatherIcons.moreHorizontal,
-                    size: 50,
+                    size: 30,
                     color: Color(0xFFFFFFFF),
                   ),
                 ),
@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                     FeatherIcons.settings,
-                    size: 50,
+                    size: 30,
                     color: Color(0xFFFFFFFF),
                   ),
                 ),
