@@ -22,7 +22,7 @@ class Search extends StatelessWidget {
               cursorColor: const Color(0xFF9B72CF),
               style: const TextStyle(color: Color(0xFFFBFBFB)),
               decoration: InputDecoration(
-                fillColor: const Color(0xFF3F4678),
+                fillColor: const Color(0xFF222645),
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),

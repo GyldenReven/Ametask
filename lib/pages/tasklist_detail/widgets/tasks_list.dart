@@ -62,10 +62,11 @@ class _TasksListState extends State<TasksList> {
             shrinkWrap: true,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () async {
-                await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        TaskDetail(taskId: tasks[index].id!)));
-
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return TaskDetail(taskId: tasks[index].id!);
+                    });
                 refreshTasks();
               },
               child: Container(
@@ -125,7 +126,8 @@ class _TasksListState extends State<TasksList> {
                   borderRadius: BorderRadius.circular(30),
                   color: const Color(0xFF9B72CF),
                 ),
-                padding: const EdgeInsetsDirectional.symmetric(vertical: 8, horizontal: 10),
+                padding: const EdgeInsetsDirectional.symmetric(
+                    vertical: 8, horizontal: 10),
                 child: Row(
                   children: [
                     Text(

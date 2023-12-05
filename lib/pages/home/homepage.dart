@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
             topRight: Radius.circular(20),
           ),
           child: BottomNavigationBar(
-            backgroundColor: const Color(0xFF3F4678),
+            backgroundColor: const Color(0xFF222645),
             selectedItemColor: const Color(0xFF9B71CF),
             selectedFontSize: 12,
             unselectedFontSize: 12,
@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                   FeatherIcons.home,
-                  size: 30,
+                  size: 35,
                 ),),
               ),
               BottomNavigationBarItem(
@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                     FeatherIcons.folder,
-                    size: 30,
+                    size: 35,
                     color: Color(0xFFFFFFFF),
                   ),
                 ),
@@ -65,7 +65,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                     FeatherIcons.moreHorizontal,
-                    size: 30,
+                    size: 35,
                     color: Color(0xFFFFFFFF),
                   ),
                 ),
@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                     FeatherIcons.settings,
-                    size: 30,
+                    size: 35,
                     color: Color(0xFFFFFFFF),
                   ),
                 ),

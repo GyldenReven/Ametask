@@ -46,15 +46,12 @@ class _TaskDetailState extends State<TaskDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF26262C),
-      appBar: AppBar(
-        title: Text(isLoading ? "loading..." : shortTlName + "/" + task.name),
-        backgroundColor: const Color(0xFF2F3037),
-        foregroundColor: const Color(0xFFFBFBFB),
-        actions: <Widget>[deleteButton(context)],
+    return Container(
+      decoration: const BoxDecoration(
+        color: const Color(0xFF2C3158),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20))
       ),
-      body: isLoading
+      child: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
@@ -109,7 +106,7 @@ class _TaskDetailState extends State<TaskDetail> {
                     child: Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.only(left: 5),
+                          padding: const EdgeInsets.only(left: 5),
                           width: 40,
                           child: CheckboxListTile(
                             checkboxSemanticLabel: 'done ?',
@@ -121,10 +118,11 @@ class _TaskDetailState extends State<TaskDetail> {
                             },
                           ),
                         ),
-                        const Text("done ?", style: TextStyle(
-                          color: Color(0xFFFEFEFE),
-                          fontSize: 20
-                        ),),
+                        const Text(
+                          "done ?",
+                          style:
+                              TextStyle(color: Color(0xFFFEFEFE), fontSize: 20),
+                        ),
                       ],
                     )),
               ],
