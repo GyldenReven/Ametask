@@ -63,7 +63,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
                   child: Text(
                     "Title :",
                     style:
-                        GoogleFonts.poppins(color: Colors.white, fontSize: 25),
+                        GoogleFonts.poppins(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
                   ),),
                   TextFormField(
                     maxLines: null,
@@ -106,7 +106,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
                   child: Text(
                     "Description :",
                     style:
-                        GoogleFonts.poppins(color: Colors.white, fontSize: 25),
+                        GoogleFonts.poppins(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
                   ),),
                   TextFormField(
                     maxLines: null,
@@ -147,8 +147,12 @@ class _DetailTasklistState extends State<DetailTasklist> {
                   child: Text(
                     "Tasks :",
                     style:
-                        GoogleFonts.poppins(color: Colors.white, fontSize: 25),
+                        GoogleFonts.poppins(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
                   ),),
+                  Divider(
+                    height: 3,
+                    color: Color(0xFF575B7B)
+                  ),
                   TasksList(
                     tasklistId: widget.tasklistId,
                   ),

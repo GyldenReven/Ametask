@@ -59,7 +59,7 @@ class Search extends StatelessWidget {
                 child: const Icon(
                   FeatherIcons.filter,
                   color: Color(0xFFFBFBFB),
-                  size: 30,
+                  size: 33,
                 ),
               ),
             )

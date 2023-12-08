@@ -4,15 +4,49 @@ import 'package:ametask/pages/home/widgets/tasklists_list.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Column(children: [Search(), TasklistLists()]),
+    Center(
+      child: Text(
+        'Work in progress',
+        style: optionStyle,
+      ),
+    ),
+    Center(
+      child: Text(
+        'Work in progress',
+        style: optionStyle,
+      ),
+    ),
+    Center(
+      child: Text(
+        'Work in progress',
+        style: optionStyle,
+      ),
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(children: [Search(), TasklistLists()]),
-      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
       backgroundColor: const Color(0xFF2C3158),
       bottomNavigationBar: NavigationBar(),
     );
@@ -27,12 +61,18 @@ class HomePage extends StatelessWidget {
             topRight: Radius.circular(20),
           ),
           child: BottomNavigationBar(
+            onTap: _onItemTapped,
+            currentIndex: _selectedIndex,
             backgroundColor: const Color(0xFF222645),
             selectedItemColor: const Color(0xFF9B71CF),
-            selectedFontSize: 12,
+            selectedFontSize: 14,
             unselectedFontSize: 12,
-            selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w700),
-            unselectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w700),
+            selectedIconTheme: IconThemeData(size: 35),
+            unselectedIconTheme: IconThemeData(size: 30),
+            selectedLabelStyle:
+                GoogleFonts.poppins(fontWeight: FontWeight.w800),
+            unselectedLabelStyle:
+                GoogleFonts.poppins(fontWeight: FontWeight.w700),
             unselectedItemColor: const Color(0xFFFFFFFF),
             type: BottomNavigationBarType.fixed,
             items: [
@@ -42,9 +82,9 @@ class HomePage extends StatelessWidget {
                   margin: const EdgeInsets.all(5),
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
-                  FeatherIcons.home,
-                  size: 35,
-                ),),
+                    FeatherIcons.home,
+                  ),
+                ),
               ),
               BottomNavigationBarItem(
                 label: "folders",
@@ -53,8 +93,6 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                     FeatherIcons.folder,
-                    size: 35,
-                    color: Color(0xFFFFFFFF),
                   ),
                 ),
               ),
@@ -65,8 +103,6 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                     FeatherIcons.moreHorizontal,
-                    size: 35,
-                    color: Color(0xFFFFFFFF),
                   ),
                 ),
               ),
@@ -77,8 +113,6 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: const Icon(
                     FeatherIcons.settings,
-                    size: 35,
-                    color: Color(0xFFFFFFFF),
                   ),
                 ),
               ),

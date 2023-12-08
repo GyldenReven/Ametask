@@ -6,9 +6,9 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AmetaskDatabase {
-  static final AmetaskDatabase instance = AmetaskDatabase._init();
+  static AmetaskDatabase instance = AmetaskDatabase._init();
 
-  static Database? _database;
+  Database? _database;
 
   AmetaskDatabase._init();
 
@@ -128,9 +128,15 @@ CREATE TABLE $tableTasks (
     const orderBy = '${TasklistFields.createDate} ASC';
 
     // autre méthode avec le rawQuery
-    final result = await db.query(tableTasklists, orderBy: orderBy);
-
-    return result.map((json) => Tasklist.fromJson(json)).toList();
+    try {
+      final result = await db.query(tableTasklists, orderBy: orderBy);
+      return result.map((json) => Tasklist.fromJson(json)).toList();
+    } catch (e) {
+      instance = AmetaskDatabase._init();
+      final db = await instance.database;
+      final result = await db.query(tableTasklists, orderBy: orderBy);
+      return result.map((json) => Tasklist.fromJson(json)).toList();
+    }
   }
 
   Future<List<Task>> readAllTasksFor(int idTasklist) async {
@@ -174,7 +180,7 @@ CREATE TABLE $tableTasks (
     );
   }
 
-    Future updateTask(Task task) async {
+  Future updateTask(Task task) async {
     final db = await instance.database;
 
     return db.update(
@@ -210,6 +216,7 @@ CREATE TABLE $tableTasks (
       whereArgs: [id],
     );
   }
+
   Future<Folder> createFolder(Folder folder) async {
     final db = await instance.database;
 

@@ -49,8 +49,15 @@ class _TasksListState extends State<TasksList> {
 
     refreshTasks();
 
-    await Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => TaskDetail(taskId: newTask.id!)));
+    showModalBottomSheet(
+        context: context,
+        scrollControlDisabledMaxHeightRatio: double.infinity,
+        builder: (BuildContext context) {
+          return TaskDetail(taskId: newTask.id!);
+        }).whenComplete(() {
+      refreshTasks();
+    });
+    ;
   }
 
   @override
@@ -63,15 +70,18 @@ class _TasksListState extends State<TasksList> {
             itemBuilder: (context, index) => GestureDetector(
               onTap: () async {
                 showModalBottomSheet(
+                    scrollControlDisabledMaxHeightRatio: double.infinity,
                     context: context,
                     builder: (BuildContext context) {
                       return TaskDetail(taskId: tasks[index].id!);
-                    });
+                    }).whenComplete(() {
+                  refreshTasks();
+                });
                 refreshTasks();
               },
               child: Container(
                 decoration: BoxDecoration(
-                    color: Color(0xFF2C3158),
+                    color: const Color(0xFF2C3158),
                     borderRadius: BorderRadius.circular(15)),
                 child: Row(children: [
                   // penser au stack + positioned !!!
@@ -98,12 +108,12 @@ class _TasksListState extends State<TasksList> {
                           return const Color(0xFF3F4678);
                         })),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width - 70,
                     child: Text(
                       tasks[index].name,
                       style: GoogleFonts.poppins(
-                          color: Color(0xFFFEFEFE),
+                          color: const Color(0xFFFEFEFE),
                           fontSize: 20,
                           fontWeight: FontWeight.w500),
                     ),

@@ -34,7 +34,7 @@ class _TasklistListsState extends State<TasklistLists> {
 
   Future refreshTasklists() async {
     setState(() => isLoading = true);
-
+    
     tasklists = await AmetaskDatabase.instance.readAllTasklists();
 
     setState(() => isLoading = false);
