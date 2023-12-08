@@ -125,7 +125,7 @@ CREATE TABLE $tableTasks (
   Future<List<Tasklist>> readAllTasklists() async {
     final db = await instance.database;
 
-    const orderBy = '${TasklistFields.createDate} ASC';
+    const orderBy = '${TasklistFields.lastModifDate} ASC';
 
     // autre méthode avec le rawQuery
     try {
@@ -151,6 +151,22 @@ CREATE TABLE $tableTasks (
         orderBy: orderBy);
 
     return result.map((json) => Task.fromJson(json)).toList();
+  }
+
+  Future<int> countAllTasksFor(int idTasklist) async {
+    final db = await instance.database;
+
+    int count = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $tableTasks WHERE ${TasksFields.idTasklist} == $idTasklist'))!;
+
+    return count;
+  }
+
+    Future<int> countAllFinishedTasksFor(int idTasklist) async {
+    final db = await instance.database;
+
+    int count = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $tableTasks WHERE ${TasksFields.idTasklist} == $idTasklist AND ${TasksFields.finished}'))!;
+
+    return count;
   }
 
   Future<Task> readTask(int id) async {

@@ -19,6 +19,8 @@ class DetailTasklist extends StatefulWidget {
 
 class _DetailTasklistState extends State<DetailTasklist> {
   late Tasklist tasklist;
+  late int numTasks;
+  late int numTasksRemaining;
   bool isLoading = false;
 
   _DetailTasklistState.initState();
@@ -34,6 +36,11 @@ class _DetailTasklistState extends State<DetailTasklist> {
     setState(() => isLoading = true);
 
     tasklist = await AmetaskDatabase.instance.readTasklist(widget.tasklistId);
+    numTasks =
+        await AmetaskDatabase.instance.countAllTasksFor(widget.tasklistId);
+    numTasksRemaining = numTasks -
+        await AmetaskDatabase.instance
+            .countAllFinishedTasksFor(widget.tasklistId);
 
     setState(() => isLoading = false);
   }
@@ -46,12 +53,33 @@ class _DetailTasklistState extends State<DetailTasklist> {
 
   String createDateToString() {
     String date = tasklist.createDate.day.toString();
-    date += '/'+tasklist.createDate.month.toString()+'/';
+    date += '/' + tasklist.createDate.month.toString() + '/';
     date += tasklist.createDate.year.toString().substring(2);
-    date += ' at '+tasklist.createDate.hour.toString()+':';
+    date += ' at ' + tasklist.createDate.hour.toString() + ':';
     date += tasklist.createDate.minute.toString();
 
     return date;
+  }
+
+  String modifDateToString() {
+    String date = tasklist.lastModifDate.day.toString();
+    date += '/' + tasklist.lastModifDate.month.toString() + '/';
+    date += tasklist.lastModifDate.year.toString().substring(2);
+    date += ' at ' + tasklist.lastModifDate.hour.toString() + ':';
+    date += tasklist.lastModifDate.minute.toString();
+
+    return date;
+  }
+
+  String percentageFinished() {
+    try {
+      return (((numTasks - numTasksRemaining) / numTasks) * 100)
+              .round()
+              .toString() +
+          '%';
+    } catch (e) {
+      return '0%';
+    }
   }
 
   @override
@@ -200,7 +228,9 @@ class _DetailTasklistState extends State<DetailTasklist> {
   Widget infoButton() => IconButton(
         icon: const Icon(FeatherIcons.info),
         color: const Color(0xFFFBFBFB),
-        onPressed: () => showDialog<String>(
+        onPressed: () async {
+          await refreshTasklist();
+          showDialog<String>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
             backgroundColor: const Color(0xFF2B3259),
@@ -238,7 +268,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
                             fontWeight: FontWeight.bold, color: Colors.white70),
                       ),
                       Text(
-                        '22/33/23 at 23:20',
+                        modifDateToString(),
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w700, color: Colors.white),
                       )
@@ -254,7 +284,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
                             fontWeight: FontWeight.bold, color: Colors.white70),
                       ),
                       Text(
-                        '6',
+                        numTasks.toString(),
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w700, color: Colors.white),
                       )
@@ -264,12 +294,12 @@ class _DetailTasklistState extends State<DetailTasklist> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Number of remaining tasks :',
+                        'Number of remaining :',
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold, color: Colors.white70),
                       ),
                       Text(
-                        '2',
+                        numTasksRemaining.toString(),
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w700, color: Colors.white),
                       )
@@ -285,7 +315,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
                             fontWeight: FontWeight.bold, color: Colors.white70),
                       ),
                       Text(
-                        '80%',
+                        percentageFinished(),
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w700, color: Colors.white),
                       )
@@ -297,10 +327,14 @@ class _DetailTasklistState extends State<DetailTasklist> {
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pop(context, 'OK'),
-                child: const Text('OK'),
+                child: Text(
+                  'OK',
+                  style: GoogleFonts.poppins(
+                      color: Color(0xFF9B71CF), fontWeight: FontWeight.w700),
+                ),
               ),
             ],
           ),
-        ),
+        );}
       );
 }
