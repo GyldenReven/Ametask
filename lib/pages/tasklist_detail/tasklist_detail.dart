@@ -38,6 +38,22 @@ class _DetailTasklistState extends State<DetailTasklist> {
     setState(() => isLoading = false);
   }
 
+  modifTasklist() {
+    tasklist = tasklist.copy(lastModifDate: DateTime.now());
+    AmetaskDatabase.instance.updateTasklist(tasklist);
+    refreshTasklist();
+  }
+
+  String createDateToString() {
+    String date = tasklist.createDate.day.toString();
+    date += '/'+tasklist.createDate.month.toString()+'/';
+    date += tasklist.createDate.year.toString().substring(2);
+    date += ' at '+tasklist.createDate.hour.toString()+':';
+    date += tasklist.createDate.minute.toString();
+
+    return date;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +65,10 @@ class _DetailTasklistState extends State<DetailTasklist> {
         ),
         backgroundColor: const Color(0xFF2C3158),
         foregroundColor: const Color(0xFFFBFBFB),
-        actions: <Widget>[deleteButton(context)],
+        actions: <Widget>[
+          infoButton(),
+          deleteButton(context),
+        ],
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -60,18 +79,21 @@ class _DetailTasklistState extends State<DetailTasklist> {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    "Title :",
-                    style:
-                        GoogleFonts.poppins(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
-                  ),),
+                    child: Text(
+                      "Title :",
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
                   TextFormField(
                     maxLines: null,
                     keyboardType: TextInputType.text,
                     initialValue: tasklist.name,
                     style: GoogleFonts.poppins(
                       fontSize: 20,
-                      color: Color(0xFFFEFEFE),
+                      color: const Color(0xFFFEFEFE),
                     ),
                     decoration: InputDecoration(
                       fillColor: const Color(0xFF2C3158),
@@ -99,22 +121,25 @@ class _DetailTasklistState extends State<DetailTasklist> {
 
                       await AmetaskDatabase.instance.updateTasklist(tasklist);
                     },
-                    onFieldSubmitted: (String value) => refreshTasklist(),
+                    onFieldSubmitted: (String value) => modifTasklist(),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    "Description :",
-                    style:
-                        GoogleFonts.poppins(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
-                  ),),
+                    child: Text(
+                      "Description :",
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
                   TextFormField(
                     maxLines: null,
                     keyboardType: TextInputType.multiline,
                     initialValue: tasklist.description,
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      color: Color(0xFFFEFEFE),
+                      color: const Color(0xFFFEFEFE),
                     ),
                     decoration: InputDecoration(
                       fillColor: const Color(0xFF2C3158),
@@ -144,15 +169,15 @@ class _DetailTasklistState extends State<DetailTasklist> {
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    "Tasks :",
-                    style:
-                        GoogleFonts.poppins(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
-                  ),),
-                  Divider(
-                    height: 3,
-                    color: Color(0xFF575B7B)
+                    child: Text(
+                      "Tasks :",
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
+                  const Divider(height: 3, color: Color(0xFF575B7B)),
                   TasksList(
                     tasklistId: widget.tasklistId,
                   ),
@@ -170,5 +195,112 @@ class _DetailTasklistState extends State<DetailTasklist> {
 
           Navigator.of(context).pop();
         },
+      );
+
+  Widget infoButton() => IconButton(
+        icon: const Icon(FeatherIcons.info),
+        color: const Color(0xFFFBFBFB),
+        onPressed: () => showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            backgroundColor: const Color(0xFF2B3259),
+            title: Text(
+              'Statistiques',
+              style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            content: SizedBox(
+              height: 150,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Created on :',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold, color: Colors.white70),
+                      ),
+                      Text(
+                        createDateToString(),
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700, color: Colors.white),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Modified on :',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold, color: Colors.white70),
+                      ),
+                      Text(
+                        '22/33/23 at 23:20',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700, color: Colors.white),
+                      )
+                    ],
+                  ),
+                  const Divider(color: Colors.white60),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Number total of task :',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold, color: Colors.white70),
+                      ),
+                      Text(
+                        '6',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700, color: Colors.white),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Number of remaining tasks :',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold, color: Colors.white70),
+                      ),
+                      Text(
+                        '2',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700, color: Colors.white),
+                      )
+                    ],
+                  ),
+                  const Divider(color: Colors.white60),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'global progression :',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold, color: Colors.white70),
+                      ),
+                      Text(
+                        '80%',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700, color: Colors.white),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        ),
       );
 }

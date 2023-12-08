@@ -38,8 +38,8 @@ class _TasksListState extends State<TasksList> {
     setState(() {
       tasks.add(Task(
           idTasklist: widget.tasklistId,
-          name: 'task',
-          description: "description",
+          name: '',
+          description: '',
           position: tasks.length,
           type: 'checklist',
           finished: false));

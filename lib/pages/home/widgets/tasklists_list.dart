@@ -34,7 +34,7 @@ class _TasklistListsState extends State<TasklistLists> {
 
   Future refreshTasklists() async {
     setState(() => isLoading = true);
-    
+
     tasklists = await AmetaskDatabase.instance.readAllTasklists();
 
     setState(() => isLoading = false);
@@ -44,9 +44,9 @@ class _TasklistListsState extends State<TasklistLists> {
     setState(() {
       tasklists.add(Tasklist(
           idFolder: 0,
-          name: 'Title',
+          name: '',
           color: "white",
-          description: "description",
+          description: "",
           createDate: DateTime.now(),
           lastModifDate: DateTime.now(),
           tagsList: ["0"]));
