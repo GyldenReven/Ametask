@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:ametask/models/tasklists_model.dart';
 import 'package:ametask/models/tasks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
@@ -6,8 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:feather_icons/feather_icons.dart';
 
 class TasksList extends StatefulWidget {
-  final int tasklistId;
-  const TasksList({super.key, required this.tasklistId});
+  final Tasklist tasklist;
+  const TasksList({super.key, required this.tasklist});
 
   @override
   State<TasksList> createState() => _TasksListState.initState();
@@ -29,7 +32,7 @@ class _TasksListState extends State<TasksList> {
   Future refreshTasks() async {
     setState(() => isLoading = true);
 
-    tasks = await AmetaskDatabase.instance.readAllTasksFor(widget.tasklistId);
+    tasks = await AmetaskDatabase.instance.readAllTasksFor(widget.tasklist.id!);
 
     setState(() => isLoading = false);
   }
@@ -37,7 +40,7 @@ class _TasksListState extends State<TasksList> {
   Future addTask() async {
     setState(() {
       tasks.add(Task(
-          idTasklist: widget.tasklistId,
+          idTasklist: widget.tasklist.id!,
           name: '',
           description: '',
           position: tasks.length,
@@ -56,6 +59,9 @@ class _TasksListState extends State<TasksList> {
           return TaskDetail(taskId: newTask.id!);
         }).whenComplete(() {
       refreshTasks();
+      AmetaskDatabase.instance
+          .updateTasklist(widget.tasklist.copy(lastModifDate: DateTime.now()));
+      ;
     });
     ;
   }
@@ -95,6 +101,11 @@ class _TasksListState extends State<TasksList> {
                           tasks[index] = tasks[index].copy(finished: value);
                           await AmetaskDatabase.instance
                               .updateTask(tasks[index]);
+
+                          await AmetaskDatabase.instance.updateTasklist(widget
+                              .tasklist
+                              .copy(lastModifDate: DateTime.now()));
+
                           refreshTasks();
                         },
                         side: BorderSide.none,

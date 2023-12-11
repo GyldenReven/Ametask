@@ -207,7 +207,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
                   ),
                   const Divider(height: 3, color: Color(0xFF575B7B)),
                   TasksList(
-                    tasklistId: widget.tasklistId,
+                    tasklist: tasklist,
                   ),
                 ],
               ),
@@ -218,19 +218,58 @@ class _DetailTasklistState extends State<DetailTasklist> {
   Widget deleteButton(BuildContext context) => IconButton(
         icon: const Icon(FeatherIcons.trash2),
         color: const Color(0xFFFBFBFB),
-        onPressed: () async {
-          await AmetaskDatabase.instance.deleteTasklist(widget.tasklistId);
-
-          Navigator.of(context).pop();
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                    backgroundColor: const Color(0xFF2B3259),
+                    title: Text(
+                      'Are you sure you want to delete this tasklist ?',
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton.icon(
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateColor.resolveWith(
+                                (states) => Color(0xFFC097F2)),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(FeatherIcons.arrowLeft),
+                          label: Text("Go back"),
+                        ),
+                        TextButton.icon(
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.red),
+                          ),
+                          onPressed: () async {
+                            await AmetaskDatabase.instance.deleteTasklist(tasklist.id!);
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(FeatherIcons.trash2),
+                          label: Text("Delete"),
+                        ),
+                      ],
+                    ),
+                  ));
         },
       );
 
   Widget infoButton() => IconButton(
-        icon: const Icon(FeatherIcons.info),
-        color: const Color(0xFFFBFBFB),
-        onPressed: () async {
-          await refreshTasklist();
-          showDialog<String>(
+      icon: const Icon(FeatherIcons.info),
+      color: const Color(0xFFFBFBFB),
+      onPressed: () async {
+        await refreshTasklist();
+
+        showDialog<String>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
             backgroundColor: const Color(0xFF2B3259),
@@ -335,6 +374,6 @@ class _DetailTasklistState extends State<DetailTasklist> {
               ),
             ],
           ),
-        );}
-      );
+        );
+      });
 }
