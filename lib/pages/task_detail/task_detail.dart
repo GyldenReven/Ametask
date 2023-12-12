@@ -250,33 +250,113 @@ class _TaskDetailState extends State<TaskDetail> {
                       endIndent: 15,
                       color: Colors.grey,
                     ),
-                    Text(
-                      "Finished ?",
-                      style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Checkbox(
-                        activeColor: const Color(0xFF9B71CF),
-                        value: task.finished,
-                        onChanged: (bool? value) async {
-                          task = task.copy(finished: value);
-                          await AmetaskDatabase.instance.updateTask(task);
-                          refreshTask();
-                        },
-                        side: BorderSide.none,
-                        fillColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.disabled)) {
-                            return Colors.orange.withOpacity(.32);
-                          } else if (task.finished) {
-                            return const Color(0xFF9B71CF);
-                          }
-                          return const Color(0xFF3F4678);
-                        })),
+                    typeToShow(context),
                   ],
                 ),
+                TextButton.icon(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateColor.resolveWith(
+                        (states) => Color(0xFFC097F2)),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              backgroundColor: const Color(0xFF2B3259),
+                              title: Text(
+                                'What type of tasklist do you want ?',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              content: SizedBox(
+                                  height: 140,
+                                  child: Stack(
+                                    children: [
+                                      Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            TextButton.icon(
+                                              style: ButtonStyle(
+                                                foregroundColor:
+                                                    MaterialStateColor
+                                                        .resolveWith((states) =>
+                                                            const Color(
+                                                                0xFFC097F2)),
+                                              ),
+                                              onPressed: () async {
+                                                task = task.copy(
+                                                    type: "checktask");
+
+                                                await AmetaskDatabase.instance
+                                                    .updateTask(task);
+
+                                                await refreshTask();
+
+                                                Navigator.of(context).pop();
+                                              },
+                                              icon: const Icon(
+                                                  FeatherIcons.checkSquare),
+                                              label: const Text("Check task"),
+                                            ),
+                                            TextButton.icon(
+                                              style: ButtonStyle(
+                                                foregroundColor:
+                                                    MaterialStateColor
+                                                        .resolveWith((states) =>
+                                                            const Color(
+                                                                0xFFC097F2)),
+                                              ),
+                                              onPressed: () async {
+                                                task =
+                                                    task.copy(type: "numtask");
+
+                                                if (task.toDoNum == null) {
+                                                  task = task.copy(
+                                                      doneNum: 0, toDoNum: 0);
+                                                }
+
+                                                await AmetaskDatabase.instance
+                                                    .updateTask(task);
+
+                                                await refreshTask();
+
+                                                Navigator.of(context).pop();
+                                              },
+                                              icon:
+                                                  const Icon(FeatherIcons.hash),
+                                              label: const Text("Num task"),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        child: TextButton.icon(
+                                          style: ButtonStyle(
+                                            foregroundColor: MaterialStateColor
+                                                .resolveWith((states) =>
+                                                    const Color(0xFF9B71CF)),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          icon: const Icon(
+                                              FeatherIcons.arrowLeft),
+                                          label: const Text("Go back"),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ));
+                  },
+                  icon: Icon(FeatherIcons.tool),
+                  label: Text("type"),
+                )
               ],
             ),
     );
@@ -299,4 +379,137 @@ class _TaskDetailState extends State<TaskDetail> {
           Navigator.of(context).pop();
         },
       );
+
+  Widget typeToShow(BuildContext context) => task.type == "checktask"
+      ? Row(children: [
+          Text(
+            "Finished ?",
+            style: GoogleFonts.poppins(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
+          ),
+          Checkbox(
+              activeColor: const Color(0xFF9B71CF),
+              value: task.finished,
+              onChanged: (bool? value) async {
+                task = task.copy(finished: value);
+                await AmetaskDatabase.instance.updateTask(task);
+                refreshTask();
+              },
+              side: BorderSide.none,
+              fillColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.disabled)) {
+                  return Colors.orange.withOpacity(.32);
+                } else if (task.finished) {
+                  return const Color(0xFF9B71CF);
+                }
+                return const Color(0xFF3F4678);
+              })),
+        ])
+      : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+              "Repetition :",
+              style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              width: 100,
+              child: TextFormField(
+                maxLines: 1,
+                keyboardType: TextInputType.number,
+                initialValue: task.toDoNum.toString(),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    color: Color(0xFFFEFEFE),
+                    fontWeight: FontWeight.w500),
+                decoration: InputDecoration(
+                  fillColor: const Color(0xFF222645),
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(
+                      width: 0,
+                      style: BorderStyle.none,
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
+                  ),
+                  hintStyle: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+                //controller: TextEditingController(),
+                onFieldSubmitted: (String value) async {
+                  if (value == "") {
+                    value = "0";
+                  }
+                  task = task.copy(toDoNum: int.parse(value));
+
+                  await AmetaskDatabase.instance.updateTask(task);
+                },
+              ),
+            ),
+          ]),
+          Row(children: [
+            Text(
+              "Done :",
+              style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500),
+            ),
+            const VerticalDivider(
+              width: 47,
+            ),
+            SizedBox(
+              width: 100,
+              child: TextFormField(
+                maxLines: 1,
+                keyboardType: TextInputType.number,
+                initialValue: task.doneNum.toString(),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    color: Color(0xFFFEFEFE),
+                    fontWeight: FontWeight.w500),
+                decoration: InputDecoration(
+                  fillColor: const Color(0xFF222645),
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(
+                      width: 0,
+                      style: BorderStyle.none,
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
+                  ),
+                  hintStyle: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+                //controller: TextEditingController(),
+                onFieldSubmitted: (String value) async {
+                  if (value == "") {
+                    value = "0";
+                  }
+
+                  task = task.copy(doneNum: int.parse(value));
+
+                  await AmetaskDatabase.instance.updateTask(task);
+                },
+              ),
+            ),
+          ])
+        ]);
 }

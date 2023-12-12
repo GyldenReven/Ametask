@@ -44,7 +44,7 @@ class _TasksListState extends State<TasksList> {
           name: '',
           description: '',
           position: tasks.length,
-          type: 'checklist',
+          type: 'checktask',
           finished: false));
     });
 
