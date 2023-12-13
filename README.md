@@ -1,17 +1,23 @@
-# ametask
+# Ametask
 
-A new Flutter project.
+Ametask is an application in wich you can create tasks lists
+It's created with dart, with Flutter. It uses the library [sqflite](https://pub.dev/packages/sqflite) to store data.
 
 ## Getting Started
+### Instalation
 
-This project is a starting point for a Flutter application.
+### First encounter
 
-A few resources to get you started if this is your first Flutter project:
+## Data type
+### Tasklists
+Tasklists are the editable pages where you can see and edit your tasks related to this tasklits
+### Tasks
+Tasks are editable
+...
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+**There is more than one type of tasks :**
+### Other
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# Ametask
+## Settings
+
+Settings are a work in progress
