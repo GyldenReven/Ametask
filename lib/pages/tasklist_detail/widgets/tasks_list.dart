@@ -48,9 +48,11 @@ class _TasksListState extends State<TasksList> {
     });
 
     Task newTask = await AmetaskDatabase.instance.createTask(tasks.last);
-
     refreshTasks();
+    taskOpening(newTask);
+  }
 
+  taskOpening(newTask) {
     showModalBottomSheet(
         context: context,
         scrollControlDisabledMaxHeightRatio: double.infinity,
@@ -60,9 +62,7 @@ class _TasksListState extends State<TasksList> {
       refreshTasks();
       AmetaskDatabase.instance
           .updateTasklist(widget.tasklist.copy(lastModifDate: DateTime.now()));
-      ;
     });
-    ;
   }
 
   @override

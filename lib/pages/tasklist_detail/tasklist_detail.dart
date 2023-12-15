@@ -1,3 +1,4 @@
+import 'package:ametask/models/ametask_color.dart';
 import 'package:ametask/models/tasklists_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
@@ -30,6 +31,10 @@ class _DetailTasklistState extends State<DetailTasklist> {
     super.initState();
 
     refreshTasklist();
+  }
+
+  goBack() {
+    Navigator.of(context).pop();
   }
 
   Future refreshTasklist() async {
@@ -69,10 +74,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
 
   String percentageFinished() {
     try {
-      return (((numTasks - numTasksRemaining) / numTasks) * 100)
-              .round()
-              .toString() +
-          '%';
+      return '${(((numTasks - numTasksRemaining) / numTasks) * 100).round().toString()}%';
     } catch (e) {
       return '0%';
     }
@@ -232,13 +234,13 @@ class _DetailTasklistState extends State<DetailTasklist> {
                         TextButton.icon(
                           style: ButtonStyle(
                             foregroundColor: MaterialStateColor.resolveWith(
-                                (states) => Color(0xFFC097F2)),
+                                (states) => AmetaskColors.accent),
                           ),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          icon: Icon(FeatherIcons.arrowLeft),
-                          label: Text("Go back"),
+                          icon: const Icon(FeatherIcons.arrowLeft),
+                          label: const Text("Go back"),
                         ),
                         TextButton.icon(
                           style: ButtonStyle(
@@ -248,11 +250,11 @@ class _DetailTasklistState extends State<DetailTasklist> {
                           onPressed: () async {
                             await AmetaskDatabase.instance
                                 .deleteTasklist(tasklist.id!);
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
+                            goBack();
+                            goBack();
                           },
-                          icon: Icon(FeatherIcons.trash2),
-                          label: Text("Delete"),
+                          icon: const Icon(FeatherIcons.trash2),
+                          label: const Text("Delete"),
                         ),
                       ],
                     ),
@@ -368,7 +370,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
             child: Text(
               'OK',
               style: GoogleFonts.poppins(
-                  color: Color(0xFF9B71CF), fontWeight: FontWeight.w700),
+                  color: AmetaskColors.main, fontWeight: FontWeight.w700),
             ),
           ),
         ],
