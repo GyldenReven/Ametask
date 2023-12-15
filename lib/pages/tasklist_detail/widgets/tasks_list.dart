@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:ametask/models/ametask_color.dart';
 import 'package:ametask/models/tasklists_model.dart';
 import 'package:ametask/models/tasks_model.dart';
 import 'package:flutter/material.dart';
@@ -91,38 +90,13 @@ class _TasksListState extends State<TasksList> {
                     borderRadius: BorderRadius.circular(15)),
                 child: Row(children: [
                   // penser au stack + positioned !!!
-                  Container(
-                    padding: const EdgeInsets.only(left: 5),
-                    width: 40,
-                    child: Checkbox(
-                        activeColor: const Color(0xFF9B71CF),
-                        value: tasks[index].finished,
-                        onChanged: (bool? value) async {
-                          tasks[index] = tasks[index].copy(finished: value);
-                          await AmetaskDatabase.instance
-                              .updateTask(tasks[index]);
-
-                          await AmetaskDatabase.instance.updateTasklist(widget
-                              .tasklist
-                              .copy(lastModifDate: DateTime.now()));
-
-                          refreshTasks();
-                        },
-                        side: BorderSide.none,
-                        fillColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.disabled)) {
-                            return Colors.orange.withOpacity(.32);
-                          } else if (tasks[index].finished) {
-                            return const Color(0xFF9B71CF);
-                          }
-                          return const Color(0xFF3F4678);
-                        })),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 70,
+                  Validation(index),
+                  Flexible(
+                    flex: 1,
                     child: Text(
                       tasks[index].name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.poppins(
                           color: const Color(0xFFFEFEFE),
                           fontSize: 20,
@@ -168,4 +142,77 @@ class _TasksListState extends State<TasksList> {
       ),
     );
   }
+
+  Widget Validation(int index) => tasks[index].type == "checktask"
+      ? Container(
+          padding: const EdgeInsets.only(left: 5),
+          width: 40,
+          child: Checkbox(
+              activeColor: const Color(0xFF9B71CF),
+              value: tasks[index].finished,
+              onChanged: (bool? value) async {
+                tasks[index] = tasks[index].copy(finished: value);
+                await AmetaskDatabase.instance.updateTask(tasks[index]);
+
+                await AmetaskDatabase.instance.updateTasklist(
+                    widget.tasklist.copy(lastModifDate: DateTime.now()));
+
+                refreshTasks();
+              },
+              side: BorderSide.none,
+              fillColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.disabled)) {
+                  return Colors.orange.withOpacity(.32);
+                } else if (tasks[index].finished) {
+                  return const Color(0xFF9B71CF);
+                }
+                return const Color(0xFF3F4678);
+              })),
+        )
+      : Row(
+          children: [
+            Container(
+              width: 40,
+              padding: const EdgeInsets.only(left: 5),
+              child: IconButton(
+                iconSize: 20,
+                style: ButtonStyle(
+                    iconColor: MaterialStateColor.resolveWith((states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return AmetaskColors.accent;
+                  }
+                  return Colors.white;
+                })),
+                icon: const Icon(
+                  FeatherIcons.plusSquare,
+                ),
+                onPressed: () async {
+                  int newValue = tasks[index].doneNum! + 1;
+
+                  Task newTask = tasks[index].copy(doneNum: newValue);
+                  if (newValue >= tasks[index].toDoNum!) {
+                    newTask = newTask.copy(finished: true);
+                  }
+
+                  await AmetaskDatabase.instance.updateTask(newTask);
+                  refreshTasks();
+                },
+              ),
+            ),
+            Text(tasks[index].doneNum.toString(),
+                style: GoogleFonts.poppins(
+                    color: const Color(0xFFFEFEFE),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600)),
+            Text("/ ${tasks[index].toDoNum.toString()}",
+                style: GoogleFonts.poppins(
+                    color: const Color(0xFFCCCCCC),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500)),
+            const VerticalDivider(
+              width: 10,
+            )
+          ],
+        );
 }

@@ -71,11 +71,13 @@ class _TasklistListsState extends State<TasklistLists> {
             shrinkWrap: true,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () async {
-                await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        DetailTasklist(tasklistId: tasklists[index].id!)));
-
-                refreshTasklists();
+                await Navigator.of(context)
+                    .push(MaterialPageRoute(
+                        builder: (context) =>
+                            DetailTasklist(tasklistId: tasklists[index].id!)))
+                    .whenComplete(() {
+                  refreshTasklists();
+                });
               },
               child: Container(
                   decoration: const BoxDecoration(
@@ -122,7 +124,8 @@ class _TasklistListsState extends State<TasklistLists> {
                   borderRadius: BorderRadius.circular(30),
                   color: const Color(0xFF9B72CF),
                 ),
-                padding: const EdgeInsetsDirectional.symmetric(vertical: 8, horizontal: 10),
+                padding: const EdgeInsetsDirectional.symmetric(
+                    vertical: 8, horizontal: 10),
                 child: Row(
                   children: [
                     Text(

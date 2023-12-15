@@ -1,3 +1,4 @@
+import 'package:ametask/models/ametask_color.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/models/tasks_model.dart';
@@ -221,16 +222,16 @@ class _TaskDetailState extends State<TaskDetail> {
 
                           if (newPos > oldPos) {
                             for (var friend in friendsTasks) {
-                              if (friend.position > oldPos &&
-                                  friend.position < oldPos) {
+                              if (friend.position >= oldPos &&
+                                  friend.position <= newPos) {
                                 await AmetaskDatabase.instance.updateTask(
                                     friend.copy(position: friend.position - 1));
                               }
                             }
                           } else if (newPos < oldPos) {
                             for (var friend in friendsTasks) {
-                              if (friend.position < oldPos &&
-                                  friend.position > oldPos) {
+                              if (friend.position <= oldPos &&
+                                  friend.position >= newPos) {
                                 await AmetaskDatabase.instance.updateTask(
                                     friend.copy(position: friend.position + 1));
                               }
@@ -256,7 +257,7 @@ class _TaskDetailState extends State<TaskDetail> {
                 TextButton.icon(
                   style: ButtonStyle(
                     foregroundColor: MaterialStateColor.resolveWith(
-                        (states) => Color(0xFFC097F2)),
+                        (states) => AmetaskColors.main),
                   ),
                   onPressed: () {
                     showDialog(
@@ -450,7 +451,12 @@ class _TaskDetailState extends State<TaskDetail> {
                   if (value == "") {
                     value = "0";
                   }
-                  task = task.copy(toDoNum: int.parse(value));
+                  if (int.parse(value) <= task.doneNum!) {
+                    task = task.copy(toDoNum: int.parse(value), finished: true);
+                  } else {
+                    task =
+                        task.copy(toDoNum: int.parse(value), finished: false);
+                  }
 
                   await AmetaskDatabase.instance.updateTask(task);
                 },
@@ -504,7 +510,11 @@ class _TaskDetailState extends State<TaskDetail> {
                     value = "0";
                   }
 
-                  task = task.copy(doneNum: int.parse(value));
+                  if (int.parse(value) >= task.toDoNum!) {
+                    task = task.copy(doneNum: int.parse(value), finished: true);
+                  } else {
+                    task = task.copy(doneNum: int.parse(value), finished: false);
+                  }
 
                   await AmetaskDatabase.instance.updateTask(task);
                 },

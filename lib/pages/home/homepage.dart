@@ -53,72 +53,66 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget NavigationBar() {
-    return Container(
-      child: Container(
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      ),
+      child: BottomNavigationBar(
+        onTap: _onItemTapped,
+        currentIndex: _selectedIndex,
+        backgroundColor: const Color(0xFF222645),
+        selectedItemColor: const Color(0xFF9B71CF),
+        selectedFontSize: 14,
+        unselectedFontSize: 12,
+        selectedIconTheme: IconThemeData(size: 35),
+        unselectedIconTheme: IconThemeData(size: 30),
+        selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w800),
+        unselectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w700),
+        unselectedItemColor: const Color(0xFFFFFFFF),
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            label: 'home',
+            icon: Container(
+              margin: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
+              child: const Icon(
+                FeatherIcons.home,
+              ),
+            ),
           ),
-          child: BottomNavigationBar(
-            onTap: _onItemTapped,
-            currentIndex: _selectedIndex,
-            backgroundColor: const Color(0xFF222645),
-            selectedItemColor: const Color(0xFF9B71CF),
-            selectedFontSize: 14,
-            unselectedFontSize: 12,
-            selectedIconTheme: IconThemeData(size: 35),
-            unselectedIconTheme: IconThemeData(size: 30),
-            selectedLabelStyle:
-                GoogleFonts.poppins(fontWeight: FontWeight.w800),
-            unselectedLabelStyle:
-                GoogleFonts.poppins(fontWeight: FontWeight.w700),
-            unselectedItemColor: const Color(0xFFFFFFFF),
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(
-                label: 'home',
-                icon: Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.all(5),
-                  child: const Icon(
-                    FeatherIcons.home,
-                  ),
-                ),
+          BottomNavigationBarItem(
+            label: "folders",
+            icon: Container(
+              margin: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
+              child: const Icon(
+                FeatherIcons.folder,
               ),
-              BottomNavigationBarItem(
-                label: "folders",
-                icon: Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.all(5),
-                  child: const Icon(
-                    FeatherIcons.folder,
-                  ),
-                ),
-              ),
-              BottomNavigationBarItem(
-                label: "example",
-                icon: Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.all(5),
-                  child: const Icon(
-                    FeatherIcons.moreHorizontal,
-                  ),
-                ),
-              ),
-              BottomNavigationBarItem(
-                label: "Settings",
-                icon: Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.all(5),
-                  child: const Icon(
-                    FeatherIcons.settings,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          BottomNavigationBarItem(
+            label: "example",
+            icon: Container(
+              margin: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
+              child: const Icon(
+                FeatherIcons.moreHorizontal,
+              ),
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: "Settings",
+            icon: Container(
+              margin: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
+              child: const Icon(
+                FeatherIcons.settings,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
