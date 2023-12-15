@@ -52,23 +52,19 @@ class _DetailTasklistState extends State<DetailTasklist> {
   }
 
   String createDateToString() {
-    String date = tasklist.createDate.day.toString();
-    date += '/' + tasklist.createDate.month.toString() + '/';
-    date += tasklist.createDate.year.toString().substring(2);
-    date += ' at ' + tasklist.createDate.hour.toString() + ':';
-    date += tasklist.createDate.minute.toString();
-
-    return date;
+    return "${tasklist.createDate.day.toString()}"
+        "/${tasklist.createDate.month.toString()}"
+        "/${tasklist.createDate.year.toString().substring(2)}"
+        " at ${tasklist.createDate.hour.toString()}"
+        ":${tasklist.createDate.minute.toString()}";
   }
 
   String modifDateToString() {
-    String date = tasklist.lastModifDate.day.toString();
-    date += '/' + tasklist.lastModifDate.month.toString() + '/';
-    date += tasklist.lastModifDate.year.toString().substring(2);
-    date += ' at ' + tasklist.lastModifDate.hour.toString() + ':';
-    date += tasklist.lastModifDate.minute.toString();
-
-    return date;
+    return "${tasklist.lastModifDate.day.toString()}"
+        "/${tasklist.lastModifDate.month.toString()}"
+        "/${tasklist.lastModifDate.year.toString().substring(2)}"
+        " at ${tasklist.lastModifDate.hour.toString()}"
+        ":${tasklist.lastModifDate.minute.toString()}";
   }
 
   String percentageFinished() {
@@ -250,7 +246,8 @@ class _DetailTasklistState extends State<DetailTasklist> {
                                 (states) => Colors.red),
                           ),
                           onPressed: () async {
-                            await AmetaskDatabase.instance.deleteTasklist(tasklist.id!);
+                            await AmetaskDatabase.instance
+                                .deleteTasklist(tasklist.id!);
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
                           },
@@ -268,112 +265,114 @@ class _DetailTasklistState extends State<DetailTasklist> {
       color: const Color(0xFFFBFBFB),
       onPressed: () async {
         await refreshTasklist();
-
-        showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            backgroundColor: const Color(0xFF2B3259),
-            title: Text(
-              'Statistiques',
-              style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-            content: SizedBox(
-              height: 150,
-              child: Column(
+        infoAlert();
+      });
+  infoAlert() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: const Color(0xFF2B3259),
+        title: Text(
+          'Statistiques',
+          style: GoogleFonts.poppins(
+              fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        content: SizedBox(
+          height: 150,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Created on :',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold, color: Colors.white70),
-                      ),
-                      Text(
-                        createDateToString(),
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700, color: Colors.white),
-                      )
-                    ],
+                  Text(
+                    'Created on :',
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold, color: Colors.white70),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Modified on :',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold, color: Colors.white70),
-                      ),
-                      Text(
-                        modifDateToString(),
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  const Divider(color: Colors.white60),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Number total of task :',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold, color: Colors.white70),
-                      ),
-                      Text(
-                        numTasks.toString(),
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Number of remaining :',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold, color: Colors.white70),
-                      ),
-                      Text(
-                        numTasksRemaining.toString(),
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  const Divider(color: Colors.white60),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'global progression :',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold, color: Colors.white70),
-                      ),
-                      Text(
-                        percentageFinished(),
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700, color: Colors.white),
-                      )
-                    ],
-                  ),
+                  Text(
+                    createDateToString(),
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w700, color: Colors.white),
+                  )
                 ],
               ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'OK'),
-                child: Text(
-                  'OK',
-                  style: GoogleFonts.poppins(
-                      color: Color(0xFF9B71CF), fontWeight: FontWeight.w700),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Modified on :',
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold, color: Colors.white70),
+                  ),
+                  Text(
+                    modifDateToString(),
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w700, color: Colors.white),
+                  )
+                ],
+              ),
+              const Divider(color: Colors.white60),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Number total of task :',
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold, color: Colors.white70),
+                  ),
+                  Text(
+                    numTasks.toString(),
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w700, color: Colors.white),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Number of remaining :',
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold, color: Colors.white70),
+                  ),
+                  Text(
+                    numTasksRemaining.toString(),
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w700, color: Colors.white),
+                  )
+                ],
+              ),
+              const Divider(color: Colors.white60),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'global progression :',
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold, color: Colors.white70),
+                  ),
+                  Text(
+                    percentageFinished(),
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w700, color: Colors.white),
+                  )
+                ],
               ),
             ],
           ),
-        );
-      });
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: Text(
+              'OK',
+              style: GoogleFonts.poppins(
+                  color: Color(0xFF9B71CF), fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

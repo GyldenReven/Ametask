@@ -90,7 +90,7 @@ class _TasksListState extends State<TasksList> {
                     borderRadius: BorderRadius.circular(15)),
                 child: Row(children: [
                   // penser au stack + positioned !!!
-                  Validation(index),
+                  validation(index),
                   Flexible(
                     flex: 1,
                     child: Text(
@@ -143,7 +143,7 @@ class _TasksListState extends State<TasksList> {
     );
   }
 
-  Widget Validation(int index) => tasks[index].type == "checktask"
+  Widget validation(int index) => tasks[index].type == "checktask"
       ? Container(
           padding: const EdgeInsets.only(left: 5),
           width: 40,
