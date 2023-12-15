@@ -1,5 +1,6 @@
 import 'package:ametask/models/ametask_color.dart';
 import 'package:ametask/models/tasklists_model.dart';
+import 'package:ametask/pages/task_detail/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
 import 'package:ametask/pages/tasklist_detail/widgets/tasks_list.dart';
@@ -57,24 +58,25 @@ class _DetailTasklistState extends State<DetailTasklist> {
   }
 
   String createDateToString() {
-    return "${tasklist.createDate.day.toString()}"
-        "/${tasklist.createDate.month.toString()}"
+    return "${tasklist.createDate.day}"
+        "/${tasklist.createDate.month}"
         "/${tasklist.createDate.year.toString().substring(2)}"
-        " at ${tasklist.createDate.hour.toString()}"
-        ":${tasklist.createDate.minute.toString()}";
+        " at ${tasklist.createDate.hour}"
+        ":${tasklist.createDate.minute}";
   }
 
   String modifDateToString() {
-    return "${tasklist.lastModifDate.day.toString()}"
-        "/${tasklist.lastModifDate.month.toString()}"
+    return "${tasklist.lastModifDate.day}"
+        "/${tasklist.lastModifDate.month}"
         "/${tasklist.lastModifDate.year.toString().substring(2)}"
-        " at ${tasklist.lastModifDate.hour.toString()}"
-        ":${tasklist.lastModifDate.minute.toString()}";
+        " at ${tasklist.lastModifDate.hour}"
+        ":${tasklist.lastModifDate.minute}";
   }
 
   String percentageFinished() {
     try {
-      return '${(((numTasks - numTasksRemaining) / numTasks) * 100).round().toString()}%';
+      int percent = (((numTasks - numTasksRemaining) / numTasks) * 100).round();
+      return '$percent%';
     } catch (e) {
       return '0%';
     }
@@ -98,22 +100,23 @@ class _DetailTasklistState extends State<DetailTasklist> {
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Text(
-                      "Title :",
-                      style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    ),
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: Text(
+                    "Title :",
+                    style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
                   ),
-                  TextFormField(
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextFormField(
                     maxLines: null,
                     keyboardType: TextInputType.text,
                     initialValue: tasklist.name,
@@ -149,17 +152,22 @@ class _DetailTasklistState extends State<DetailTasklist> {
                     },
                     onFieldSubmitted: (String value) => modifTasklist(),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Text(
-                      "Description :",
-                      style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: Text(
+                    "Description :",
+                    style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
                   ),
-                  TextFormField(
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: TextFormField(
                     maxLines: null,
                     keyboardType: TextInputType.multiline,
                     initialValue: tasklist.description,
@@ -193,22 +201,23 @@ class _DetailTasklistState extends State<DetailTasklist> {
                       await AmetaskDatabase.instance.updateTasklist(tasklist);
                     },
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Text(
-                      "Tasks :",
-                      style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: Text(
+                    "Tasks :",
+                    style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
                   ),
-                  const Divider(height: 3, color: Color(0xFF575B7B)),
-                  TasksList(
-                    tasklist: tasklist,
-                  ),
-                ],
-              ),
+                ),
+                const Divider(height: 3, color: AmetaskColors.discretLine2),
+                TasksList(
+                  tasklist: tasklist,
+                ),
+                BottomTaskslistBar()
+              ],
             ),
     );
   }

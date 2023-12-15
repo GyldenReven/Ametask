@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
 import 'package:ametask/pages/tasklist_detail/tasklist_detail.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ametask/models/ametask_color.dart';
 
 class TasklistLists extends StatefulWidget {
   const TasklistLists({super.key});
@@ -117,27 +118,28 @@ class _TasklistListsState extends State<TasklistLists> {
           Positioned(
             bottom: 15,
             right: 15,
-            child: GestureDetector(
-              onTap: addTasklist,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: const Color(0xFF9B72CF),
+            child: TextButton.icon(
+              onPressed: addTasklist,
+              icon: const Icon(FeatherIcons.plus),
+              label: const Text("New Tasklist"),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith(
+                  (states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return AmetaskColors.darker;
+                    }
+                    return AmetaskColors.main;
+                  },
                 ),
-                padding: const EdgeInsetsDirectional.symmetric(
-                    vertical: 8, horizontal: 10),
-                child: Row(
-                  children: [
-                    Text(
-                      'New Tasklist',
-                      style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    const Icon(FeatherIcons.plus, color: Colors.white),
-                  ],
+                foregroundColor: MaterialStateProperty.resolveWith(
+                  (states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return AmetaskColors.lightGray;
+                    }
+                    return AmetaskColors.white;
+                  },
                 ),
+                textStyle: MaterialStatePropertyAll(GoogleFonts.poppins(fontSize: 20)),
               ),
             ),
           ),

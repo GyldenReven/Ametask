@@ -113,28 +113,29 @@ class _TasksListState extends State<TasksList> {
           ),
           Positioned(
             bottom: 15,
-            right: 15,
-            child: GestureDetector(
-              onTap: addTask,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: const Color(0xFF9B72CF),
+            right: 0,
+            child: TextButton.icon(
+              onPressed: addTask,
+              icon: const Icon(FeatherIcons.plus),
+              label: const Text("New Task"),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith(
+                  (states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return AmetaskColors.darker;
+                    }
+                    return AmetaskColors.main;
+                  },
                 ),
-                padding: const EdgeInsetsDirectional.symmetric(
-                    vertical: 8, horizontal: 10),
-                child: Row(
-                  children: [
-                    Text(
-                      'New Task',
-                      style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    const Icon(FeatherIcons.plus, color: Colors.white),
-                  ],
+                foregroundColor: MaterialStateProperty.resolveWith(
+                  (states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return AmetaskColors.lightGray;
+                    }
+                    return AmetaskColors.white;
+                  },
                 ),
+                textStyle: MaterialStatePropertyAll(GoogleFonts.poppins(fontSize: 20)),
               ),
             ),
           ),
