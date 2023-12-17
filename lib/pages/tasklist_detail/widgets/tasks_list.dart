@@ -72,42 +72,45 @@ class _TasksListState extends State<TasksList> {
         children: [
           ListView.separated(
             shrinkWrap: true,
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () async {
-                showModalBottomSheet(
-                    scrollControlDisabledMaxHeightRatio: double.infinity,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return TaskDetail(taskId: tasks[index].id!);
-                    }).whenComplete(() {
+            itemBuilder: (context, index) => Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: GestureDetector(
+                onTap: () async {
+                  showModalBottomSheet(
+                      scrollControlDisabledMaxHeightRatio: double.infinity,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return TaskDetail(taskId: tasks[index].id!);
+                      }).whenComplete(() {
+                    refreshTasks();
+                  });
                   refreshTasks();
-                });
-                refreshTasks();
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                    color: const Color(0xFF2C3158),
-                    borderRadius: BorderRadius.circular(15)),
-                child: Row(children: [
-                  // penser au stack + positioned !!!
-                  validation(index),
-                  Flexible(
-                    flex: 1,
-                    child: Text(
-                      tasks[index].name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(
-                          color: const Color(0xFFFEFEFE),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500),
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: const Color(0xFF2C3158),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Row(children: [
+                    // penser au stack + positioned !!!
+                    validation(index),
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        tasks[index].name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                            color: const Color(0xFFFEFEFE),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                ]),
+                  ]),
+                ),
               ),
             ),
             separatorBuilder: (context, index) => Container(
-              height: 8,
+              height: 0,
             ),
             itemCount: tasks.length,
           ),

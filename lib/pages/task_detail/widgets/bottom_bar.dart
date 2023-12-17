@@ -25,7 +25,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
       child: BottomAppBar(
         padding: const EdgeInsets.only(top: 5),
         color: AmetaskColors.bg3,
