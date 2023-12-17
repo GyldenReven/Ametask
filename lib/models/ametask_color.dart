@@ -11,4 +11,6 @@ class AmetaskColors {
   static const Color bg3 = Color(0xFF222744);
   static const Color discretLine1 = Color(0xFF42496F);
   static const Color discretLine2 = Color(0xFF6D77B3);
+  static const Color red = Colors.red;
+  static const Color transparentRed = Color(0x66F44336);
 }

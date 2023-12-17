@@ -216,7 +216,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
                 TasksList(
                   tasklist: tasklist,
                 ),
-                BottomTaskslistBar()
+                BottomTaskslistBar(tasklistId: widget.tasklistId, father: widget, callback: refreshTasklist)
               ],
             ),
     );

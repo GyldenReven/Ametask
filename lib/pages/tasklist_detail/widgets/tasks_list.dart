@@ -113,7 +113,7 @@ class _TasksListState extends State<TasksList> {
           ),
           Positioned(
             bottom: 15,
-            right: 0,
+            right: 15,
             child: TextButton.icon(
               onPressed: addTask,
               icon: const Icon(FeatherIcons.plus),
