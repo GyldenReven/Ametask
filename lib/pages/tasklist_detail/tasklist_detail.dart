@@ -1,6 +1,6 @@
 import 'package:ametask/models/ametask_color.dart';
 import 'package:ametask/models/tasklists_model.dart';
-import 'package:ametask/pages/task_detail/widgets/bottom_bar.dart';
+import 'package:ametask/pages/tasklist_detail/widgets/bottom_bar.dart';
 import 'package:ametask/pages/tasklist_detail/widgets/delete_button.dart';
 import 'package:ametask/pages/tasklist_detail/widgets/info_button.dart';
 import 'package:flutter/material.dart';

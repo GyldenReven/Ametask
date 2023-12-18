@@ -49,7 +49,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                 builder: (BuildContext context) => AlertDialog(
                     backgroundColor: AmetaskColors.bg3,
                     title: Text(
-                      'Are tou sure you want to delete all tasklist ?',
+                      'Are tou sure you want to delete all finished task ?',
                       style: GoogleFonts.poppins(
                           color: AmetaskColors.white,
                           fontWeight: FontWeight.w400),
@@ -81,8 +81,17 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                                 .readAllTasksFor(widget.tasklistId);
                             for (Task task in tasks) {
                               if (task.finished) {
+                                int taskPos = task.position;
                                 await AmetaskDatabase.instance
                                     .deleteTask(task.id!);
+
+                                for (Task friend in tasks) {
+                                  if (friend.position > taskPos) {
+                                    await AmetaskDatabase.instance.updateTask(
+                                        friend.copy(
+                                            position: friend.position - 1));
+                                  }
+                                }
                               }
                             }
                             await widget.callback();
@@ -91,7 +100,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                           },
                           icon: const Icon(FeatherIcons.trash2),
                           label: const Text(
-                            "delete all",
+                            "delete finished",
                           ),
                           style: ButtonStyle(
                             textStyle: MaterialStatePropertyAll(

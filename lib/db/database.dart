@@ -125,7 +125,7 @@ CREATE TABLE $tableTasks (
   Future<List<Tasklist>> readAllTasklists() async {
     final db = await instance.database;
 
-    const orderBy = '${TasklistFields.lastModifDate} ASC';
+    const orderBy = '${TasklistFields.lastModifDate} DESC';
 
     // autre méthode avec le rawQuery
     try {

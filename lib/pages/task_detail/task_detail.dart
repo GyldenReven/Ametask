@@ -5,6 +5,7 @@ import 'package:ametask/models/tasks_model.dart';
 import 'package:ametask/db/database.dart';
 import 'package:ametask/models/tasklists_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ametask/pages/task_detail/widgets/delete_button.dart';
 
 class TaskDetail extends StatefulWidget {
   final int taskId;
@@ -38,11 +39,6 @@ class _TaskDetailState extends State<TaskDetail> {
 
     task = await AmetaskDatabase.instance.readTask(widget.taskId);
     fromTasklist = await AmetaskDatabase.instance.readTasklist(task.idTasklist);
-    if (fromTasklist.name.length > 13) {
-      shortTlName = fromTasklist.name.substring(0, 11) + "...";
-    } else {
-      shortTlName = fromTasklist.name;
-    }
 
     setState(() => isLoading = false);
   }
@@ -63,7 +59,7 @@ class _TaskDetailState extends State<TaskDetail> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [backButton(context), deleteButton(context)],
+                    children: [backButton(context), DeleteTButton(task: task)],
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 5),
@@ -81,7 +77,7 @@ class _TaskDetailState extends State<TaskDetail> {
                     initialValue: task.name,
                     style: GoogleFonts.poppins(
                       fontSize: 20,
-                      color: Color(0xFFFEFEFE),
+                      color: AmetaskColors.white,
                     ),
                     decoration: InputDecoration(
                       fillColor: const Color(0xFF222645),
@@ -127,7 +123,7 @@ class _TaskDetailState extends State<TaskDetail> {
                     initialValue: task.description,
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      color: Color(0xFFFEFEFE),
+                      color: AmetaskColors.white,
                     ),
                     decoration: InputDecoration(
                       fillColor: const Color(0xFF222645),
@@ -296,16 +292,6 @@ class _TaskDetailState extends State<TaskDetail> {
     );
   }
 
-  Widget deleteButton(BuildContext context) => IconButton(
-        icon: const Icon(FeatherIcons.trash2),
-        color: const Color(0xFFFEFEFE),
-        onPressed: () async {
-          await AmetaskDatabase.instance.deleteTask(widget.taskId);
-
-          Navigator.of(context).pop();
-        },
-      );
-
   Widget backButton(BuildContext context) => IconButton(
         icon: const Icon(FeatherIcons.arrowLeft),
         color: const Color(0xFFFEFEFE),
@@ -315,44 +301,47 @@ class _TaskDetailState extends State<TaskDetail> {
       );
 
   Widget typeToShow(BuildContext context) => task.type == "checktask"
-      ? Container(
-          padding: const EdgeInsets.all(5),
-          margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 5),
-          decoration: BoxDecoration(
-            border: Border.all(width: 2, color: AmetaskColors.discretLine1),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            Text(
-              "Finished ?",
-              style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500),
-            ),
-            Checkbox(
-                activeColor: const Color(0xFF9B71CF),
-                value: task.finished,
-                onChanged: (bool? value) async {
-                  task = task.copy(finished: value);
-                  await AmetaskDatabase.instance.updateTask(task);
-                  refreshTask();
-                },
-                side: BorderSide.none,
-                fillColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.disabled)) {
-                    return Colors.orange.withOpacity(.32);
-                  } else if (task.finished) {
-                    return const Color(0xFF9B71CF);
-                  }
-                  return const Color(0xFF3F4678);
-                })),
-          ]))
+      ? Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+              width: 200,
+              margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              decoration: BoxDecoration(
+                border: Border.all(width: 2, color: AmetaskColors.discretLine1),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Finished ?",
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Checkbox(
+                        activeColor: const Color(0xFF9B71CF),
+                        value: task.finished,
+                        onChanged: (bool? value) async {
+                          task = task.copy(finished: value);
+                          await AmetaskDatabase.instance.updateTask(task);
+                          refreshTask();
+                        },
+                        side: BorderSide.none,
+                        fillColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled)) {
+                            return Colors.orange.withOpacity(.32);
+                          } else if (task.finished) {
+                            return const Color(0xFF9B71CF);
+                          }
+                          return const Color(0xFF3F4678);
+                        })),
+                  ])))
       : Container(
           padding: const EdgeInsets.all(5),
-          margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 5),
+          margin: const EdgeInsets.symmetric(vertical: 5),
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: AmetaskColors.discretLine1),
             borderRadius: BorderRadius.circular(20),
@@ -367,8 +356,9 @@ class _TaskDetailState extends State<TaskDetail> {
                     fontSize: 18,
                     fontWeight: FontWeight.w500),
               ),
-              SizedBox(
-                width: 120,
+              const VerticalDivider(),
+              Flexible(
+                flex: 1,
                 child: TextFormField(
                   maxLines: 1,
                   keyboardType: TextInputType.number,
@@ -376,7 +366,7 @@ class _TaskDetailState extends State<TaskDetail> {
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                       fontSize: 18,
-                      color: Color(0xFFFEFEFE),
+                      color: AmetaskColors.white,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
                     fillColor: const Color(0xFF222645),
@@ -409,7 +399,6 @@ class _TaskDetailState extends State<TaskDetail> {
                       task =
                           task.copy(toDoNum: int.parse(value), finished: false);
                     }
-
                     await AmetaskDatabase.instance.updateTask(task);
                   },
                 ),
@@ -427,17 +416,21 @@ class _TaskDetailState extends State<TaskDetail> {
                     fontSize: 18,
                     fontWeight: FontWeight.w500),
               ),
-              SizedBox(
-                width: 120,
+              const VerticalDivider(
+                width: 60,
+              ),
+              Flexible(
+                flex: 1,
                 child: TextFormField(
                   maxLines: 1,
                   keyboardType: TextInputType.number,
                   initialValue: task.doneNum.toString(),
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      color: Color(0xFFFEFEFE),
-                      fontWeight: FontWeight.w500),
+                    fontSize: 18,
+                    color: AmetaskColors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
                   decoration: InputDecoration(
                     fillColor: const Color(0xFF222645),
                     filled: true,
@@ -477,6 +470,7 @@ class _TaskDetailState extends State<TaskDetail> {
               ),
             ])
           ]));
+
   Widget popUpType(BuildContext context) => SizedBox(
       height: 140,
       child: Stack(
@@ -505,7 +499,10 @@ class _TaskDetailState extends State<TaskDetail> {
 
                     await refreshTask();
 
-                    Navigator.of(context).pop();
+                    var currentContext = context;
+                    Future.delayed(Duration.zero, () {
+                      Navigator.of(currentContext).pop();
+                    });
                   },
                   icon: const Icon(FeatherIcons.checkSquare),
                   label: const Text("Check task"),
@@ -534,7 +531,10 @@ class _TaskDetailState extends State<TaskDetail> {
 
                     await refreshTask();
 
-                    Navigator.of(context).pop();
+                    var currentContext = context;
+                    Future.delayed(Duration.zero, () {
+                      Navigator.of(currentContext).pop();
+                    });
                   },
                   icon: const Icon(FeatherIcons.hash),
                   label: const Text("Num task"),

@@ -73,7 +73,7 @@ class _TasksListState extends State<TasksList> {
           ListView.separated(
             shrinkWrap: true,
             itemBuilder: (context, index) => Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: GestureDetector(
                 onTap: () async {
                   showModalBottomSheet(
