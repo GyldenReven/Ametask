@@ -1,4 +1,5 @@
 import 'package:ametask/models/ametask_color.dart';
+import 'package:ametask/pages/task_detail/widgets/task_priority.dart';
 import 'package:ametask/pages/task_detail/widgets/type_to_show.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:ametask/db/database.dart';
 import 'package:ametask/models/tasklists_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ametask/pages/task_detail/widgets/delete_button.dart';
+import 'package:ametask/pages/task_detail/widgets/popup_task_type.dart';
 
 class TaskDetail extends StatefulWidget {
   final int taskId;
@@ -158,92 +160,7 @@ class _TaskDetailState extends State<TaskDetail> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Text(
-                          "priority :",
-                          style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 70,
-                        child: TextFormField(
-                          maxLines: 1,
-                          keyboardType: TextInputType.number,
-                          initialValue: (task.position + 1).toString(),
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                              fontSize: 18,
-                              color: const Color(0xFFFEFEFE),
-                              fontWeight: FontWeight.w500),
-                          decoration: InputDecoration(
-                            fillColor: const Color(0xFF222645),
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                width: 0,
-                                style: BorderStyle.none,
-                              ),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 15,
-                              vertical: 10,
-                            ),
-                            hintStyle: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white.withOpacity(0.3),
-                            ),
-                          ),
-                          //controller: TextEditingController(),
-                          onFieldSubmitted: (String value) async {
-                            List<Task> friendsTasks = await AmetaskDatabase
-                                .instance
-                                .readAllTasksFor(task.idTasklist);
-                            int newPos;
-                            int oldPos = task.position;
-
-                            if (value == "") {
-                              newPos = friendsTasks.length - 1;
-                            } else {
-                              newPos = int.parse(value) - 1;
-                              if (newPos < 0) {
-                                newPos = 0;
-                              }
-                              if (newPos > friendsTasks.length) {
-                                newPos = friendsTasks.length - 1;
-                              }
-                            }
-
-                            if (newPos > oldPos) {
-                              for (var friend in friendsTasks) {
-                                if (friend.position >= oldPos &&
-                                    friend.position <= newPos) {
-                                  await AmetaskDatabase.instance.updateTask(
-                                      friend.copy(
-                                          position: friend.position - 1));
-                                }
-                              }
-                            } else if (newPos < oldPos) {
-                              for (var friend in friendsTasks) {
-                                if (friend.position <= oldPos &&
-                                    friend.position >= newPos) {
-                                  await AmetaskDatabase.instance.updateTask(
-                                      friend.copy(
-                                          position: friend.position + 1));
-                                }
-                              }
-                            }
-
-                            task = task.copy(position: newPos);
-
-                            await AmetaskDatabase.instance.updateTask(task);
-                          },
-                        ),
-                      ),
+                      PriorityChanger(task: task),
                       const VerticalDivider(
                         width: 20,
                         thickness: 1,
@@ -270,23 +187,28 @@ class _TaskDetailState extends State<TaskDetail> {
                         label: const Text("type"),
                         onPressed: () {
                           showDialog(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                  backgroundColor: AmetaskColors.bg1,
-                                  title: Text(
-                                    'What type of tasklist do you want ?',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  content: popUpType(context)));
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              backgroundColor: AmetaskColors.bg1,
+                              title: Text(
+                                'What type of tasklist do you want ?',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              content: PopUpType(
+                                task: task,
+                                callback: refreshTask,
+                              ),
+                            ),
+                          );
                         },
                       )
                     ],
                   ),
-                  ShowType(task: task, callback: refreshTask,),
+                  ShowType(task: task),
                 ],
               ),
             ),
@@ -300,100 +222,4 @@ class _TaskDetailState extends State<TaskDetail> {
           Navigator.of(context).pop();
         },
       );
-
-  Widget popUpType(BuildContext context) => SizedBox(
-      height: 140,
-      child: Stack(
-        children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                TextButton.icon(
-                  style: ButtonStyle(
-                    iconSize: MaterialStateProperty.resolveWith((states) => 30),
-                    textStyle: MaterialStateProperty.resolveWith((states) =>
-                        GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500, fontSize: 20)),
-                    foregroundColor: MaterialStateColor.resolveWith((states) {
-                      if (states.contains(MaterialState.pressed)) {
-                        return AmetaskColors.main;
-                      }
-                      return AmetaskColors.accent;
-                    }),
-                  ),
-                  onPressed: () async {
-                    task = task.copy(type: "checktask");
-
-                    await AmetaskDatabase.instance.updateTask(task);
-
-                    await refreshTask();
-
-                    var currentContext = context;
-                    Future.delayed(Duration.zero, () {
-                      Navigator.of(currentContext).pop();
-                    });
-                  },
-                  icon: const Icon(FeatherIcons.checkSquare),
-                  label: const Text("Check task"),
-                ),
-                TextButton.icon(
-                  style: ButtonStyle(
-                    iconSize: MaterialStateProperty.resolveWith((states) => 30),
-                    textStyle: MaterialStateProperty.resolveWith((states) =>
-                        GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500, fontSize: 20)),
-                    foregroundColor: MaterialStateColor.resolveWith((states) {
-                      if (states.contains(MaterialState.pressed)) {
-                        return AmetaskColors.main;
-                      }
-                      return AmetaskColors.accent;
-                    }),
-                  ),
-                  onPressed: () async {
-                    task = task.copy(type: "numtask");
-
-                    if (task.toDoNum == null) {
-                      task = task.copy(doneNum: 0, toDoNum: 0);
-                    }
-
-                    await AmetaskDatabase.instance.updateTask(task);
-
-                    await refreshTask();
-
-                    var currentContext = context;
-                    Future.delayed(Duration.zero, () {
-                      Navigator.of(currentContext).pop();
-                    });
-                  },
-                  icon: const Icon(FeatherIcons.hash),
-                  label: const Text("Num task"),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: TextButton.icon(
-              style: ButtonStyle(
-                iconSize: MaterialStateProperty.resolveWith((states) => 20),
-                textStyle: MaterialStateProperty.resolveWith((states) =>
-                    GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600, fontSize: 15)),
-                foregroundColor: MaterialStateColor.resolveWith((states) {
-                  if (states.contains(MaterialState.pressed)) {
-                    return AmetaskColors.darker;
-                  }
-                  return AmetaskColors.main;
-                }),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(FeatherIcons.arrowLeft),
-              label: const Text("Go back"),
-            ),
-          ),
-        ],
-      ));
 }

@@ -8,8 +8,7 @@ import 'package:ametask/models/ametask_color.dart';
 
 class ShowType extends StatelessWidget {
   final Task task;
-  final Function callback;
-  const ShowType({super.key, required this.task, required this.callback});
+  const ShowType({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,6 @@ class ShowType extends StatelessWidget {
                           onChanged: (bool? value) async {
                             Task newTask = task.copy(finished: value);
                             await AmetaskDatabase.instance.updateTask(newTask);
-                            callback();
                           },
                           side: BorderSide.none,
                           fillColor: MaterialStateProperty.resolveWith<Color>(
