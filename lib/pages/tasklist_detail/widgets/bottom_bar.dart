@@ -81,22 +81,21 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                                 .readAllTasksFor(widget.tasklistId);
                             for (Task task in tasks) {
                               if (task.finished) {
-                                int taskPos = task.position;
                                 await AmetaskDatabase.instance
                                     .deleteTask(task.id!);
-
-                                for (Task friend in tasks) {
-                                  if (friend.position > taskPos) {
-                                    await AmetaskDatabase.instance.updateTask(
-                                        friend.copy(
-                                            position: friend.position - 1));
-                                  }
-                                }
+                              }
+                              tasks = await AmetaskDatabase.instance
+                                  .readAllTasksFor(tasks[0].idTasklist);
+                              for (int i = 0; i < tasks.length; i++) {
+                                await AmetaskDatabase.instance
+                                    .updateTask(tasks[i].copy(position: i));
                               }
                             }
                             await widget.callback();
-                            //widget.father.super.refreshTask();
-                            Navigator.of(context).pop();
+                            var currentContext = context;
+                            Future.delayed(Duration.zero, () {
+                              Navigator.of(currentContext).pop();
+                            });
                           },
                           icon: const Icon(FeatherIcons.trash2),
                           label: const Text(
