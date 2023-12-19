@@ -22,6 +22,12 @@ class BottomTaskslistBar extends StatefulWidget {
 }
 
 class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
+  late bool isAllFinished;
+
+  _BottomTaskslistBarState() {
+    isAllFinished = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -49,7 +55,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                 builder: (BuildContext context) => AlertDialog(
                     backgroundColor: AmetaskColors.bg3,
                     title: Text(
-                      'Are tou sure you want to delete all finished task ?',
+                      'Are tou sure you want to delete all finished tasks ?',
                       style: GoogleFonts.poppins(
                           color: AmetaskColors.white,
                           fontWeight: FontWeight.w400),
@@ -142,7 +148,10 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                 fontWeight: FontWeight.w500))
       ]);
 
-  Widget finishAllButton() => Column(children: [
+  Widget finishAllButton() {
+
+
+    return Column(children: [
         IconButton(
           onPressed: () {},
           icon: const Icon(FeatherIcons.checkSquare),
@@ -159,7 +168,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                 color: AmetaskColors.white,
                 fontSize: 10,
                 fontWeight: FontWeight.w500))
-      ]);
+      ]);}
 
   Widget hideFinishedButton() => Column(children: [
         IconButton(

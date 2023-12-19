@@ -152,7 +152,7 @@ class _TasksListState extends State<TasksList> {
           padding: const EdgeInsets.only(left: 5),
           width: 40,
           child: Checkbox(
-              activeColor: const Color(0xFF9B71CF),
+              activeColor: AmetaskColors.main,
               value: tasks[index].finished,
               onChanged: (bool? value) async {
                 tasks[index] = tasks[index].copy(finished: value);
@@ -167,11 +167,11 @@ class _TasksListState extends State<TasksList> {
               fillColor: MaterialStateProperty.resolveWith<Color>(
                   (Set<MaterialState> states) {
                 if (states.contains(MaterialState.disabled)) {
-                  return Colors.orange.withOpacity(.32);
+                  return AmetaskColors.grey.withOpacity(.32);
                 } else if (tasks[index].finished) {
-                  return const Color(0xFF9B71CF);
+                  return AmetaskColors.main;
                 }
-                return const Color(0xFF3F4678);
+                return AmetaskColors.bg2;
               })),
         )
       : Row(
@@ -186,7 +186,7 @@ class _TasksListState extends State<TasksList> {
                   if (states.contains(MaterialState.pressed)) {
                     return AmetaskColors.accent;
                   }
-                  return Colors.white;
+                  return AmetaskColors.white;
                 })),
                 icon: const Icon(
                   FeatherIcons.plusSquare,
@@ -206,12 +206,12 @@ class _TasksListState extends State<TasksList> {
             ),
             Text(tasks[index].doneNum.toString(),
                 style: GoogleFonts.poppins(
-                    color: const Color(0xFFFEFEFE),
+                    color: AmetaskColors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.w600)),
             Text("/ ${tasks[index].toDoNum.toString()}",
                 style: GoogleFonts.poppins(
-                    color: const Color(0xFFCCCCCC),
+                    color: AmetaskColors.lightGray,
                     fontSize: 14,
                     fontWeight: FontWeight.w500)),
             const VerticalDivider(

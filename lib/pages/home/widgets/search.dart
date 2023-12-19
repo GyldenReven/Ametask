@@ -1,3 +1,4 @@
+import 'package:ametask/models/ametask_color.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -19,10 +20,10 @@ class Search extends StatelessWidget {
         child: Stack(
           children: [
             TextField(
-              cursorColor: const Color(0xFF9B72CF),
-              style: const TextStyle(color: Color(0xFFFBFBFB)),
+              cursorColor: AmetaskColors.main,
+              style: const TextStyle(color: AmetaskColors.white),
               decoration: InputDecoration(
-                fillColor: const Color(0xFF222645),
+                fillColor: AmetaskColors.bg3,
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -38,12 +39,12 @@ class Search extends StatelessWidget {
                 prefixIcon: const Icon(
                   FeatherIcons.search,
                   size: 30,
-                  color: Color(0xFFFBFBFB),
+                  color: AmetaskColors.white,
                 ),
                 hintText: "Search for a tasklist",
                 hintStyle: TextStyle(
                   fontSize: 14,
-                  color: Colors.white.withOpacity(0.3),
+                  color: AmetaskColors.white.withOpacity(0.3),
                 ),
               ),
             ),
@@ -54,11 +55,11 @@ class Search extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: const Color(0xFF9B72CF),
+                  color: AmetaskColors.main,
                 ),
                 child: const Icon(
                   FeatherIcons.filter,
-                  color: Color(0xFFFBFBFB),
+                  color: AmetaskColors.white,
                   size: 33,
                 ),
               ),

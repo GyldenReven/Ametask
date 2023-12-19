@@ -100,7 +100,7 @@ class _TasklistListsState extends State<TasklistLists> {
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w700,
-                              color: Colors.white,
+                              color: AmetaskColors.white,
                               fontSize: 20),
                         ),
                         Text(tasklists[index].description,
@@ -108,7 +108,7 @@ class _TasklistListsState extends State<TasklistLists> {
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white,
+                                color: AmetaskColors.white,
                                 fontSize: 16)),
                       ])),
             ),

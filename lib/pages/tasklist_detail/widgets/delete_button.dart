@@ -22,12 +22,12 @@ class DeleteTLButton extends StatelessWidget {
           showDialog(
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                    backgroundColor: const Color(0xFF2B3259),
+                    backgroundColor: AmetaskColors.bg1,
                     title: Text(
                       'Are you sure you want to delete this tasklist ?',
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: AmetaskColors.white,
                       ),
                     ),
                     content: Row(
@@ -47,7 +47,7 @@ class DeleteTLButton extends StatelessWidget {
                         TextButton.icon(
                           style: ButtonStyle(
                             foregroundColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.red),
+                                (states) => AmetaskColors.red),
                           ),
                           onPressed: () async {
                             await AmetaskDatabase.instance

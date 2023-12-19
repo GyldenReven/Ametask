@@ -29,12 +29,12 @@ class ShowType extends StatelessWidget {
                       Text(
                         "Finished ?",
                         style: GoogleFonts.poppins(
-                            color: Colors.white,
+                            color: AmetaskColors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.w500),
                       ),
                       Checkbox(
-                          activeColor: const Color(0xFF9B71CF),
+                          activeColor: AmetaskColors.main,
                           value: task.finished,
                           onChanged: (bool? value) async {
                             Task newTask = task.copy(finished: value);
@@ -44,11 +44,11 @@ class ShowType extends StatelessWidget {
                           fillColor: MaterialStateProperty.resolveWith<Color>(
                               (Set<MaterialState> states) {
                             if (states.contains(MaterialState.disabled)) {
-                              return Colors.orange.withOpacity(.32);
+                              return AmetaskColors.grey.withOpacity(.32);
                             } else if (task.finished) {
-                              return const Color(0xFF9B71CF);
+                              return AmetaskColors.main;
                             }
-                            return const Color(0xFF3F4678);
+                            return AmetaskColors.bg2;
                           })),
                     ])))
         : Container(
@@ -81,7 +81,7 @@ class ShowType extends StatelessWidget {
                         color: AmetaskColors.white,
                         fontWeight: FontWeight.w500),
                     decoration: InputDecoration(
-                      fillColor: const Color(0xFF222645),
+                      fillColor: AmetaskColors.bg3,
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -96,7 +96,7 @@ class ShowType extends StatelessWidget {
                       ),
                       hintStyle: TextStyle(
                         fontSize: 14,
-                        color: Colors.white.withOpacity(0.3),
+                        color: AmetaskColors.white.withOpacity(0.3),
                       ),
                     ),
                     //controller: TextEditingController(),
@@ -125,7 +125,7 @@ class ShowType extends StatelessWidget {
                 Text(
                   "Done :",
                   style: GoogleFonts.poppins(
-                      color: Colors.white,
+                      color: AmetaskColors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.w500),
                 ),
@@ -145,7 +145,7 @@ class ShowType extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                     decoration: InputDecoration(
-                      fillColor: const Color(0xFF222645),
+                      fillColor: AmetaskColors.bg3,
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -160,7 +160,7 @@ class ShowType extends StatelessWidget {
                       ),
                       hintStyle: TextStyle(
                         fontSize: 14,
-                        color: Colors.white.withOpacity(0.3),
+                        color: AmetaskColors.white.withOpacity(0.3),
                       ),
                     ),
                     //controller: TextEditingController(),

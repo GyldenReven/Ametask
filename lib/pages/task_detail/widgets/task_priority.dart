@@ -29,10 +29,10 @@ class PriorityChanger extends StatelessWidget {
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
               fontSize: 18,
-              color: const Color(0xFFFEFEFE),
+              color: AmetaskColors.white,
               fontWeight: FontWeight.w500),
           decoration: InputDecoration(
-            fillColor: const Color(0xFF222645),
+            fillColor: AmetaskColors.bg3,
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
@@ -47,7 +47,7 @@ class PriorityChanger extends StatelessWidget {
             ),
             hintStyle: TextStyle(
               fontSize: 14,
-              color: Colors.white.withOpacity(0.3),
+              color: AmetaskColors.white.withOpacity(0.3),
             ),
           ),
           //controller: TextEditingController(),

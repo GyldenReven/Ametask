@@ -65,7 +65,7 @@ class _InfoTLButtonState extends State<InfoTLButton> {
   Widget build(BuildContext context) {
     return IconButton(
         icon: const Icon(FeatherIcons.info),
-        color: const Color(0xFFFBFBFB),
+        color: AmetaskColors.white,
         onPressed: () async {
           await refreshTasklist();
           infoAlert();
@@ -76,11 +76,11 @@ class _InfoTLButtonState extends State<InfoTLButton> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        backgroundColor: const Color(0xFF2B3259),
+        backgroundColor: AmetaskColors.bg1,
         title: Text(
           'Statistiques',
           style: GoogleFonts.poppins(
-              fontWeight: FontWeight.bold, color: Colors.white),
+              fontWeight: FontWeight.bold, color: AmetaskColors.white),
         ),
         content: SizedBox(
           height: 150,
@@ -93,12 +93,14 @@ class _InfoTLButtonState extends State<InfoTLButton> {
                   Text(
                     'Created on :',
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold, color: Colors.white70),
+                        fontWeight: FontWeight.bold,
+                        color: AmetaskColors.lightGray),
                   ),
                   Text(
                     createDateToString(),
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w700, color: Colors.white),
+                        fontWeight: FontWeight.w700,
+                        color: AmetaskColors.white),
                   )
                 ],
               ),
@@ -108,28 +110,32 @@ class _InfoTLButtonState extends State<InfoTLButton> {
                   Text(
                     'Modified on :',
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold, color: Colors.white70),
+                        fontWeight: FontWeight.bold,
+                        color: AmetaskColors.lightGray),
                   ),
                   Text(
                     modifDateToString(),
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w700, color: Colors.white),
+                        fontWeight: FontWeight.w700,
+                        color: AmetaskColors.white),
                   )
                 ],
               ),
-              const Divider(color: Colors.white60),
+              const Divider(color: AmetaskColors.discretLine2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Number total of task :',
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold, color: Colors.white70),
+                        fontWeight: FontWeight.bold,
+                        color: AmetaskColors.lightGray),
                   ),
                   Text(
                     numTasks.toString(),
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w700, color: Colors.white),
+                        fontWeight: FontWeight.w700,
+                        color: AmetaskColors.white),
                   )
                 ],
               ),
@@ -139,28 +145,32 @@ class _InfoTLButtonState extends State<InfoTLButton> {
                   Text(
                     'Number of remaining :',
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold, color: Colors.white70),
+                        fontWeight: FontWeight.bold,
+                        color: AmetaskColors.lightGray),
                   ),
                   Text(
                     numTasksRemaining.toString(),
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w700, color: Colors.white),
+                        fontWeight: FontWeight.w700,
+                        color: AmetaskColors.white),
                   )
                 ],
               ),
-              const Divider(color: Colors.white60),
+              const Divider(color: AmetaskColors.discretLine2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'global progression :',
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold, color: Colors.white70),
+                        fontWeight: FontWeight.bold,
+                        color: AmetaskColors.lightGray),
                   ),
                   Text(
                     percentageFinished(),
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w700, color: Colors.white),
+                        fontWeight: FontWeight.w700,
+                        color: AmetaskColors.white),
                   )
                 ],
               ),

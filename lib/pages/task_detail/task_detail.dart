@@ -52,7 +52,7 @@ class _TaskDetailState extends State<TaskDetail> {
       height: 700,
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
-          color: Color(0xFF2C3158),
+          color: AmetaskColors.bg1,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       child: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -69,7 +69,7 @@ class _TaskDetailState extends State<TaskDetail> {
                     child: Text(
                       "Title :",
                       style: GoogleFonts.poppins(
-                          color: Colors.white,
+                          color: AmetaskColors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.w500),
                     ),
@@ -83,7 +83,7 @@ class _TaskDetailState extends State<TaskDetail> {
                       color: AmetaskColors.white,
                     ),
                     decoration: InputDecoration(
-                      fillColor: const Color(0xFF222645),
+                      fillColor: AmetaskColors.bg3,
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -99,7 +99,7 @@ class _TaskDetailState extends State<TaskDetail> {
                       hintText: "Title of the task",
                       hintStyle: TextStyle(
                         fontSize: 14,
-                        color: Colors.white.withOpacity(0.3),
+                        color: AmetaskColors.white.withOpacity(0.3),
                       ),
                     ),
                     //controller: TextEditingController(),
@@ -115,7 +115,7 @@ class _TaskDetailState extends State<TaskDetail> {
                     child: Text(
                       "Description :",
                       style: GoogleFonts.poppins(
-                          color: Colors.white,
+                          color: AmetaskColors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.w500),
                     ),
@@ -129,7 +129,7 @@ class _TaskDetailState extends State<TaskDetail> {
                       color: AmetaskColors.white,
                     ),
                     decoration: InputDecoration(
-                      fillColor: const Color(0xFF222645),
+                      fillColor: AmetaskColors.bg3,
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -155,7 +155,7 @@ class _TaskDetailState extends State<TaskDetail> {
                     },
                   ),
                   const Divider(
-                    color: Color(0x00000000),
+                    color: AmetaskColors.invisible,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,7 +166,7 @@ class _TaskDetailState extends State<TaskDetail> {
                         thickness: 1,
                         indent: 20,
                         endIndent: 15,
-                        color: Colors.grey,
+                        color: AmetaskColors.grey,
                       ),
                       TextButton.icon(
                         style: ButtonStyle(
@@ -195,7 +195,7 @@ class _TaskDetailState extends State<TaskDetail> {
                                 style: GoogleFonts.poppins(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.white,
+                                  color: AmetaskColors.white,
                                 ),
                               ),
                               content: PopUpType(
@@ -217,7 +217,7 @@ class _TaskDetailState extends State<TaskDetail> {
 
   Widget backButton(BuildContext context) => IconButton(
         icon: const Icon(FeatherIcons.arrowLeft),
-        color: const Color(0xFFFEFEFE),
+        color: AmetaskColors.white,
         onPressed: () {
           Navigator.of(context).pop();
         },
