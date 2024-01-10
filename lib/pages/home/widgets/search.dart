@@ -15,7 +15,6 @@ class Search extends StatelessWidget {
           left: 25,
           right: 25,
           top: MediaQuery.of(context).padding.top + 25,
-          bottom: 25,
         ),
         child: Stack(
           children: [
@@ -23,7 +22,7 @@ class Search extends StatelessWidget {
               cursorColor: AmetaskColors.main,
               style: const TextStyle(color: AmetaskColors.white),
               decoration: InputDecoration(
-                fillColor: AmetaskColors.bg3,
+                fillColor: AmetaskColors.bg2,
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),

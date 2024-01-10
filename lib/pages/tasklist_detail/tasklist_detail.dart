@@ -61,14 +61,14 @@ class _DetailTasklistState extends State<DetailTasklist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF383E6E),
+      backgroundColor: AmetaskColors.bg1,
       appBar: AppBar(
         title: Text(
           isLoading ? "loading..." : tasklist.name,
           style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: const Color(0xFF2C3158),
-        foregroundColor: const Color(0xFFFBFBFB),
+        backgroundColor: AmetaskColors.darker,
+        foregroundColor: AmetaskColors.white,
         actions: <Widget>[
           InfoTLButton(
             tasklistId: widget.tasklistId,
@@ -84,45 +84,38 @@ class _DetailTasklistState extends State<DetailTasklist> {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  child: Text(
-                    "Title :",
-                    style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: TextFormField(
-                    maxLines: null,
+                    minLines: 1,
+                    maxLines: 2,
                     keyboardType: TextInputType.text,
                     initialValue: tasklist.name,
                     style: GoogleFonts.poppins(
-                      fontSize: 20,
-                      color: const Color(0xFFFEFEFE),
-                    ),
+                        fontSize: 23,
+                        color: AmetaskColors.white,
+                        fontWeight: FontWeight.w500),
                     decoration: InputDecoration(
-                      fillColor: const Color(0xFF2C3158),
+                      fillColor: AmetaskColors.bg3,
                       filled: true,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(10),
                         borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
+                          width: 10,
+                          color: AmetaskColors.red,
+                          style: BorderStyle.solid,
                         ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 15,
                         vertical: 10,
                       ),
-                      hintText: "Title of the tasklist",
-                      hintStyle: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white.withOpacity(0.3),
+                      hintText: "Title",
+                      hintStyle: GoogleFonts.poppins(
+                        fontSize: 23,
+                        color: AmetaskColors.white.withOpacity(0.3),
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     //controller: TextEditingController(),
@@ -134,46 +127,31 @@ class _DetailTasklistState extends State<DetailTasklist> {
                     onFieldSubmitted: (String value) => modifTasklist(),
                   ),
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  child: Text(
-                    "Description :",
-                    style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextFormField(
-                    maxLines: null,
+                    minLines: 1,
+                    maxLines: 5,
                     keyboardType: TextInputType.multiline,
                     initialValue: tasklist.description,
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      color: const Color(0xFFFEFEFE),
+                      color: AmetaskColors.white,
                     ),
                     decoration: InputDecoration(
-                      fillColor: const Color(0xFF2C3158),
+                      fillColor: AmetaskColors.bg3,
                       filled: true,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 15,
                         vertical: 10,
                       ),
-                      hintText: "Desciption of the tasklist",
-                      hintStyle: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white.withOpacity(0.3),
+                      hintText: "Desciption",
+                      hintStyle: GoogleFonts.poppins(
+                        fontSize: 16,
+                        color: AmetaskColors.white.withOpacity(0.3),
                       ),
                     ),
                     onChanged: (String value) async {
@@ -189,7 +167,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
                   child: Text(
                     "Tasks :",
                     style: GoogleFonts.poppins(
-                        color: Colors.white,
+                        color: AmetaskColors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.w500),
                   ),

@@ -88,8 +88,17 @@ class _TasksListState extends State<TasksList> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color: const Color(0xFF2C3158),
-                      borderRadius: BorderRadius.circular(15)),
+                      color: AmetaskColors.bg2,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                              color: AmetaskColors.discretLine1, width: 2),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x66000000),
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ]),
                   child: Row(children: [
                     // penser au stack + positioned !!!
                     validation(index),
@@ -100,7 +109,7 @@ class _TasksListState extends State<TasksList> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.poppins(
-                            color: const Color(0xFFFEFEFE),
+                            color: AmetaskColors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.w500),
                       ),
@@ -152,7 +161,6 @@ class _TasksListState extends State<TasksList> {
           padding: const EdgeInsets.only(left: 5),
           width: 40,
           child: Checkbox(
-              activeColor: AmetaskColors.main,
               value: tasks[index].finished,
               onChanged: (bool? value) async {
                 tasks[index] = tasks[index].copy(finished: value);
@@ -171,7 +179,7 @@ class _TasksListState extends State<TasksList> {
                 } else if (tasks[index].finished) {
                   return AmetaskColors.main;
                 }
-                return AmetaskColors.bg2;
+                return AmetaskColors.bg1;
               })),
         )
       : Row(

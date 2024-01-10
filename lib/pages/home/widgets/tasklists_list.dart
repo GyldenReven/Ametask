@@ -81,10 +81,18 @@ class _TasklistListsState extends State<TasklistLists> {
                 });
               },
               child: Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF383E6E),
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                  ),
+                  decoration: BoxDecoration(
+                      color: AmetaskColors.bg2,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                              color: AmetaskColors.discretLine1, width: 2),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x66000000),
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ]),
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.only(
                     left: 15,
@@ -139,7 +147,8 @@ class _TasklistListsState extends State<TasklistLists> {
                     return AmetaskColors.white;
                   },
                 ),
-                textStyle: MaterialStatePropertyAll(GoogleFonts.poppins(fontSize: 20)),
+                textStyle:
+                    MaterialStatePropertyAll(GoogleFonts.poppins(fontSize: 20)),
               ),
             ),
           ),

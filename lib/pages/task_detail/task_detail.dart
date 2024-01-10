@@ -64,43 +64,32 @@ class _TaskDetailState extends State<TaskDetail> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [backButton(context), DeleteTButton(task: task)],
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Text(
-                      "Title :",
-                      style: GoogleFonts.poppins(
-                          color: AmetaskColors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
                   TextFormField(
-                    maxLines: null,
+                    minLines: 1,
+                    maxLines: 3,
                     keyboardType: TextInputType.text,
                     initialValue: task.name,
                     style: GoogleFonts.poppins(
-                      fontSize: 20,
+                      fontSize: 23,
                       color: AmetaskColors.white,
+                      fontWeight: FontWeight.w500,
                     ),
                     decoration: InputDecoration(
                       fillColor: AmetaskColors.bg3,
                       filled: true,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 15,
                         vertical: 10,
                       ),
-                      hintText: "Title of the task",
-                      hintStyle: TextStyle(
-                        fontSize: 14,
-                        color: AmetaskColors.white.withOpacity(0.3),
-                      ),
+                      hintText: "Title",
+                      hintStyle: GoogleFonts.poppins(
+                      fontSize: 23,
+                      color: AmetaskColors.white.withOpacity(0.3),
+                      fontWeight: FontWeight.w500,
+                    ),
                     ),
                     //controller: TextEditingController(),
                     onChanged: (String value) async {
@@ -110,49 +99,38 @@ class _TaskDetailState extends State<TaskDetail> {
                     },
                     onFieldSubmitted: (String value) => refreshTask(),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Text(
-                      "Description :",
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: TextFormField(
+                      minLines: 1,
+                      maxLines: 8,
+                      keyboardType: TextInputType.multiline,
+                      initialValue: task.description,
                       style: GoogleFonts.poppins(
-                          color: AmetaskColors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  TextFormField(
-                    maxLines: null,
-                    keyboardType: TextInputType.multiline,
-                    initialValue: task.description,
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      color: AmetaskColors.white,
-                    ),
-                    decoration: InputDecoration(
-                      fillColor: AmetaskColors.bg3,
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
+                        fontSize: 16,
+                        color: AmetaskColors.white,
+                      ),
+                      decoration: InputDecoration(
+                        fillColor: AmetaskColors.bg3,
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        hintText: "Desciption",
+                        hintStyle: GoogleFonts.poppins(
+                        fontSize: 16,
+                        color: AmetaskColors.white.withOpacity(0.3),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 10,
                       ),
-                      hintText: "Desciption of the task",
-                      hintStyle: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white.withOpacity(0.3),
-                      ),
+                      onChanged: (String value) async {
+                        task = task.copy(description: value);
+                          await AmetaskDatabase.instance.updateTask(task);
+                      },
                     ),
-                    onChanged: (String value) async {
-                      task = task.copy(description: value);
-
-                      await AmetaskDatabase.instance.updateTask(task);
-                    },
                   ),
                   const Divider(
                     color: AmetaskColors.invisible,
@@ -208,7 +186,7 @@ class _TaskDetailState extends State<TaskDetail> {
                       )
                     ],
                   ),
-                  ShowType(task: task),
+                  ShowType(task: task, callback: refreshTask),
                 ],
               ),
             ),

@@ -23,18 +23,41 @@ class BottomTaskslistBar extends StatefulWidget {
 
 class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
   late bool isAllFinished;
+  bool isLoading = false;
 
-  _BottomTaskslistBarState() {
-    isAllFinished = false;
+  @override
+  void initState() {
+    super.initState();
+
+    getFinishedTasks();
+  }
+
+  getFinishedTasks() async {
+    setState(() => isLoading = true);
+    List<Task> tasks =
+        await AmetaskDatabase.instance.readAllTasksFor(widget.tasklistId);
+    for (Task task in tasks) {
+      if (!task.finished) {
+        setState(() {
+          setState(() => isLoading = false);
+          isAllFinished = false;
+        });
+        return;
+      }
+    }
+    setState(() {
+      isAllFinished = true;
+    });
+    setState(() => isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
       child: BottomAppBar(
         padding: const EdgeInsets.only(top: 5),
-        color: AmetaskColors.bg3,
+        color: AmetaskColors.darker,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -53,7 +76,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
             showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
-                    backgroundColor: AmetaskColors.bg3,
+                    backgroundColor: AmetaskColors.darker,
                     title: Text(
                       'Are tou sure you want to delete all finished tasks ?',
                       style: GoogleFonts.poppins(
@@ -149,26 +172,59 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
       ]);
 
   Widget finishAllButton() {
+    return isLoading
+        ? const CircularProgressIndicator()
+        : Column(children: [
+            IconButton(
+              onPressed: () async {
+                List<Task> tasks = await AmetaskDatabase.instance
+                    .readAllTasksFor(widget.tasklistId);
 
-
-    return Column(children: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(FeatherIcons.checkSquare),
-          style: ButtonStyle(
-              foregroundColor: MaterialStateColor.resolveWith((states) {
-            if (states.contains(MaterialState.pressed)) {
-              return AmetaskColors.main;
-            }
-            return AmetaskColors.white;
-          })),
-        ),
-        Text("finish all",
-            style: GoogleFonts.poppins(
-                color: AmetaskColors.white,
-                fontSize: 10,
-                fontWeight: FontWeight.w500))
-      ]);}
+                if (isAllFinished) {
+                  for (Task task in tasks) {
+                    if (task.finished) {
+                      if (task.type == "checktask") {
+                        await AmetaskDatabase.instance
+                            .updateTask(task.copy(finished: false));
+                      } else if (task.type == "numtask") {
+                        await AmetaskDatabase.instance
+                            .updateTask(task.copy(finished: false, doneNum: 0));
+                      }
+                    }
+                  }
+                } else {
+                  for (Task task in tasks) {
+                    if (!task.finished) {
+                      if (task.type == "checktask") {
+                        await AmetaskDatabase.instance
+                            .updateTask(task.copy(finished: true));
+                      } else if (task.type == "numtask") {
+                        await AmetaskDatabase.instance.updateTask(
+                            task.copy(finished: true, doneNum: task.toDoNum));
+                      }
+                    }
+                  }
+                }
+                widget.callback();
+              },
+              icon: Icon(isAllFinished
+                  ? FeatherIcons.square
+                  : FeatherIcons.checkSquare),
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateColor.resolveWith((states) {
+                if (states.contains(MaterialState.pressed)) {
+                  return AmetaskColors.main;
+                }
+                return AmetaskColors.white;
+              })),
+            ),
+            Text("finish all",
+                style: GoogleFonts.poppins(
+                    color: AmetaskColors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500))
+          ]);
+  }
 
   Widget hideFinishedButton() => Column(children: [
         IconButton(

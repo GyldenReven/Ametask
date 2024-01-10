@@ -8,7 +8,8 @@ import 'package:ametask/models/ametask_color.dart';
 
 class ShowType extends StatelessWidget {
   final Task task;
-  const ShowType({super.key, required this.task});
+  final Function callback;
+  const ShowType({super.key, required this.task, required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class ShowType extends StatelessWidget {
                 decoration: BoxDecoration(
                   border:
                       Border.all(width: 2, color: AmetaskColors.discretLine1),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -39,6 +40,7 @@ class ShowType extends StatelessWidget {
                           onChanged: (bool? value) async {
                             Task newTask = task.copy(finished: value);
                             await AmetaskDatabase.instance.updateTask(newTask);
+                            callback();
                           },
                           side: BorderSide.none,
                           fillColor: MaterialStateProperty.resolveWith<Color>(
@@ -56,7 +58,7 @@ class ShowType extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 5),
             decoration: BoxDecoration(
               border: Border.all(width: 2, color: AmetaskColors.discretLine1),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(15),
             ),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -84,11 +86,7 @@ class ShowType extends StatelessWidget {
                       fillColor: AmetaskColors.bg3,
                       filled: true,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 15,
@@ -148,11 +146,7 @@ class ShowType extends StatelessWidget {
                       fillColor: AmetaskColors.bg3,
                       filled: true,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 15,
