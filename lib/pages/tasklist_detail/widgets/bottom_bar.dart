@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ametask/db/database.dart';
 import 'package:ametask/models/ametask_color.dart';
 import 'package:ametask/models/tasks_model.dart';
@@ -57,7 +59,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
       borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
       child: BottomAppBar(
         padding: const EdgeInsets.only(top: 5),
-        color: AmetaskColors.darker,
+        color: AmetaskColors.bg3,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -93,16 +95,17 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                           icon: const Icon(FeatherIcons.arrowLeft),
                           label: const Text("cancel"),
                           style: ButtonStyle(
-                              textStyle: MaterialStatePropertyAll(
-                                  GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w600)),
-                              foregroundColor:
-                                  MaterialStateColor.resolveWith((states) {
-                                if (states.contains(MaterialState.pressed)) {
-                                  return AmetaskColors.darker;
-                                }
-                                return AmetaskColors.main;
-                              })),
+                            textStyle: MaterialStatePropertyAll(
+                                GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600)),
+                            foregroundColor:
+                                MaterialStateColor.resolveWith((states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return AmetaskColors.darker;
+                              }
+                              return AmetaskColors.main;
+                            }),
+                          ),
                         ),
                         TextButton.icon(
                           onPressed: () async {
@@ -120,7 +123,6 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                                     .updateTask(tasks[i].copy(position: i));
                               }
                             }
-                            await widget.callback();
                             var currentContext = context;
                             Future.delayed(Duration.zero, () {
                               Navigator.of(currentContext).pop();
@@ -128,7 +130,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                           },
                           icon: const Icon(FeatherIcons.trash2),
                           label: const Text(
-                            "delete finished",
+                            "delete",
                           ),
                           style: ButtonStyle(
                             textStyle: MaterialStatePropertyAll(
@@ -153,7 +155,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                           ),
                         ),
                       ],
-                    )));
+                    ))).whenComplete(() async {await widget.callback();});
           },
           icon: const Icon(FeatherIcons.trash2),
           style: ButtonStyle(
@@ -205,7 +207,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                     }
                   }
                 }
-                widget.callback();
+                await widget.callback();
               },
               icon: Icon(isAllFinished
                   ? FeatherIcons.square

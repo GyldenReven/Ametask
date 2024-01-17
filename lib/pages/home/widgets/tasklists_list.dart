@@ -85,7 +85,7 @@ class _TasklistListsState extends State<TasklistLists> {
                       color: AmetaskColors.bg2,
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                       border: Border.all(
-                              color: AmetaskColors.discretLine1, width: 2),
+                          color: AmetaskColors.discretLine1, width: 2),
                       boxShadow: const [
                         BoxShadow(
                           color: Color(0x66000000),
@@ -139,14 +139,8 @@ class _TasklistListsState extends State<TasklistLists> {
                     return AmetaskColors.main;
                   },
                 ),
-                foregroundColor: MaterialStateProperty.resolveWith(
-                  (states) {
-                    if (states.contains(MaterialState.pressed)) {
-                      return AmetaskColors.lightGray;
-                    }
-                    return AmetaskColors.white;
-                  },
-                ),
+                foregroundColor:
+                    const MaterialStatePropertyAll(AmetaskColors.white),
                 textStyle:
                     MaterialStatePropertyAll(GoogleFonts.poppins(fontSize: 20)),
               ),

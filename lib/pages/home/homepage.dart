@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
       child: BottomNavigationBar(
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
-        backgroundColor: AmetaskColors.darker,
+        backgroundColor: AmetaskColors.bg3,
         selectedItemColor: AmetaskColors.main,
         selectedFontSize: 14,
         unselectedFontSize: 12,

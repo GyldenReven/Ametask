@@ -178,10 +178,9 @@ class _TaskDetailState extends State<TaskDetail> {
                               ),
                               content: PopUpType(
                                 task: task,
-                                callback: refreshTask,
                               ),
                             ),
-                          );
+                          ).whenComplete(() => refreshTask());
                         },
                       )
                     ],

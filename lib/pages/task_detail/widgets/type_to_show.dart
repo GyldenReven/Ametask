@@ -64,7 +64,7 @@ class ShowType extends StatelessWidget {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
-                  "Repetition :",
+                  "To do :",
                   style: GoogleFonts.poppins(
                       color: Colors.white,
                       fontSize: 18,
@@ -98,7 +98,7 @@ class ShowType extends StatelessWidget {
                       ),
                     ),
                     //controller: TextEditingController(),
-                    onFieldSubmitted: (String value) async {
+                    onChanged: (String value) async {
                       if (value == "") {
                         value = "0";
                       }
@@ -128,7 +128,7 @@ class ShowType extends StatelessWidget {
                       fontWeight: FontWeight.w500),
                 ),
                 const VerticalDivider(
-                  width: 60,
+                  width: 20,
                 ),
                 Flexible(
                   flex: 1,
@@ -158,7 +158,7 @@ class ShowType extends StatelessWidget {
                       ),
                     ),
                     //controller: TextEditingController(),
-                    onFieldSubmitted: (String value) async {
+                    onChanged: (String value) async {
                       if (value == "") {
                         value = "0";
                       }

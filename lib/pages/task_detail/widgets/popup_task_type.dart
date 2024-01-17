@@ -7,8 +7,7 @@ import 'package:ametask/models/tasks_model.dart';
 
 class PopUpType extends StatelessWidget {
   final Task task;
-  final Function callback;
-  const PopUpType({super.key, required this.task, required this.callback});
+  const PopUpType({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +36,6 @@ class PopUpType extends StatelessWidget {
                     Task newTask = task.copy(type: "checktask");
 
                     await AmetaskDatabase.instance.updateTask(newTask);
-
-                    await callback();
 
                     var currentContext = context;
                     Future.delayed(Duration.zero, () {
@@ -69,8 +66,6 @@ class PopUpType extends StatelessWidget {
                     }
 
                     await AmetaskDatabase.instance.updateTask(newTask);
-
-                    await callback();
 
                     var currentContext = context;
                     Future.delayed(Duration.zero, () {
