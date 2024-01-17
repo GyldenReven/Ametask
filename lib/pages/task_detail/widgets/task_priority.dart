@@ -49,7 +49,7 @@ class PriorityChanger extends StatelessWidget {
           //controller: TextEditingController(),
           onFieldSubmitted: (String value) async {
             List<Task> friendsTasks =
-                await AmetaskDatabase.instance.readAllTasksFor(task.idTasklist);
+                await AmetaskDatabase.instance.readAllTasksFor(task.idTasklist, true);
             int newPos;
             int oldPos = task.position;
             if (value == "") {

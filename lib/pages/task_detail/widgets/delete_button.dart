@@ -16,7 +16,7 @@ class DeleteTButton extends StatelessWidget {
       onPressed: () async {
         int taskPos = task.position;
         List<Task> friends =
-            await AmetaskDatabase.instance.readAllTasksFor(task.idTasklist);
+            await AmetaskDatabase.instance.readAllTasksFor(task.idTasklist, true);
         await AmetaskDatabase.instance.deleteTask(task.id!);
 
         for (Task friend in friends) {

@@ -50,7 +50,8 @@ class _TasklistListsState extends State<TasklistLists> {
           description: "",
           createDate: DateTime.now(),
           lastModifDate: DateTime.now(),
-          tagsList: ["0"]));
+          tagsList: ["0"],
+          isShow: true));
     });
 
     Tasklist newTaskList =

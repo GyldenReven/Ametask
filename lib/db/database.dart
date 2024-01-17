@@ -65,6 +65,7 @@ CREATE TABLE $tableTasklists (
   ${TasklistFields.createDate} $textType,
   ${TasklistFields.lastModifDate} $textType,
   ${TasklistFields.tagsList} $textType,
+  ${TasklistFields.isShow} $boolType,
   FOREIGN KEY(${TasklistFields.id}) REFERENCES $tableFolders(${FolderFields.id})
 );''');
 
@@ -139,16 +140,26 @@ CREATE TABLE $tableTasks (
     }
   }
 
-  Future<List<Task>> readAllTasksFor(int idTasklist) async {
+  Future<List<Task>> readAllTasksFor(int idTasklist, bool showFinished) async {
     final db = await instance.database;
 
     const orderBy = '${TasksFields.position} ASC';
 
+    List<Map<String, Object?>> result;
     // autre méthode avec le rawQuery
-    final result = await db.query(tableTasks,
-        where: '${TasksFields.idTasklist} = ?',
+    if (showFinished) {
+      result = await db.query(tableTasks,
+          where: '${TasksFields.idTasklist} = ?',
+          whereArgs: [idTasklist],
+          orderBy: orderBy);
+    } else {
+      result = await db.query(
+        tableTasks,
+        where: '${TasksFields.idTasklist} = ? AND NOT ${TasksFields.finished}',
         whereArgs: [idTasklist],
-        orderBy: orderBy);
+        orderBy: orderBy,
+      );
+    }
 
     return result.map((json) => Task.fromJson(json)).toList();
   }
@@ -156,15 +167,17 @@ CREATE TABLE $tableTasks (
   Future<int> countAllTasksFor(int idTasklist) async {
     final db = await instance.database;
 
-    int count = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $tableTasks WHERE ${TasksFields.idTasklist} == $idTasklist'))!;
+    int count = Sqflite.firstIntValue(await db.rawQuery(
+        'SELECT COUNT(*) FROM $tableTasks WHERE ${TasksFields.idTasklist} == $idTasklist'))!;
 
     return count;
   }
 
-    Future<int> countAllFinishedTasksFor(int idTasklist) async {
+  Future<int> countAllFinishedTasksFor(int idTasklist) async {
     final db = await instance.database;
 
-    int count = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $tableTasks WHERE ${TasksFields.idTasklist} == $idTasklist AND ${TasksFields.finished}'))!;
+    int count = Sqflite.firstIntValue(await db.rawQuery(
+        'SELECT COUNT(*) FROM $tableTasks WHERE ${TasksFields.idTasklist} == $idTasklist AND ${TasksFields.finished}'))!;
 
     return count;
   }

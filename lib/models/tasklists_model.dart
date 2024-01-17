@@ -4,6 +4,7 @@ class TasklistFields {
   static final List<String> values = [
     /// add all fields
     id, idFolder, name, color, description, createDate, lastModifDate, tagsList,
+    isShow
   ];
 
   static const String id = '_id';
@@ -14,6 +15,7 @@ class TasklistFields {
   static const String createDate = 'createDate';
   static const String lastModifDate = 'lastModifDate';
   static const String tagsList = 'tagsList';
+  static const String isShow = 'isShow';
 }
 
 class Tasklist {
@@ -25,6 +27,7 @@ class Tasklist {
   final DateTime createDate;
   final DateTime lastModifDate;
   final List<String> tagsList;
+  final bool isShow;
 
   const Tasklist({
     this.id,
@@ -35,6 +38,7 @@ class Tasklist {
     required this.createDate,
     required this.lastModifDate,
     required this.tagsList,
+    required this.isShow,
   });
 
   Map<String, Object?> toJson() => {
@@ -46,10 +50,10 @@ class Tasklist {
         TasklistFields.createDate: createDate.toIso8601String(),
         TasklistFields.lastModifDate: lastModifDate.toIso8601String(),
         TasklistFields.tagsList: tagsList.join("-"),
+        TasklistFields.isShow: isShow,
       };
 
-  static Tasklist fromJson(Map<String, Object?> json) { 
-    print(json);
+  static Tasklist fromJson(Map<String, Object?> json) {
     return Tasklist(
       id: json[TasklistFields.id] as int?,
       idFolder: json[TasklistFields.idFolder] as int,
@@ -60,7 +64,9 @@ class Tasklist {
       lastModifDate:
           DateTime.parse(json[TasklistFields.lastModifDate] as String),
       tagsList: (json[TasklistFields.tagsList] as String? ?? "").split('-'),
-    );}
+      isShow: json[TasklistFields.isShow] == 1,
+    );
+  }
 
   Tasklist copy({
     int? id,
@@ -71,6 +77,7 @@ class Tasklist {
     DateTime? createDate,
     DateTime? lastModifDate,
     List<String>? tagsList,
+    bool? isShow,
   }) =>
       Tasklist(
         id: id ?? this.id,
@@ -81,5 +88,6 @@ class Tasklist {
         createDate: createDate ?? this.createDate,
         lastModifDate: lastModifDate ?? this.lastModifDate,
         tagsList: tagsList ?? this.tagsList,
+        isShow: isShow ?? this.isShow,
       );
 }
