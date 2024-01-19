@@ -31,7 +31,8 @@ class _TasksListState extends State<TasksList> {
   Future refreshTasks() async {
     setState(() => isLoading = true);
 
-    tasks = await AmetaskDatabase.instance.readAllTasksFor(widget.tasklist.id!, widget.tasklist.isShow);
+    tasks = await AmetaskDatabase.instance
+        .readAllTasksFor(widget.tasklist.id!, widget.tasklist.isShow);
 
     setState(() => isLoading = false);
   }
@@ -132,6 +133,15 @@ class _TasksListState extends State<TasksList> {
               icon: const Icon(FeatherIcons.plus),
               label: const Text("New Task"),
               style: ButtonStyle(
+                elevation: MaterialStateProperty.resolveWith((states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return 3;
+                  }
+                  return 5;
+                }),
+                shadowColor: MaterialStateProperty.all(AmetaskColors.black),
+                side: const MaterialStatePropertyAll(
+                    BorderSide(color: AmetaskColors.dark, width: 2)),
                 backgroundColor: MaterialStateProperty.resolveWith(
                   (states) {
                     if (states.contains(MaterialState.pressed)) {

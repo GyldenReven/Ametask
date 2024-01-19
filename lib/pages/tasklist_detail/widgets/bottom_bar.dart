@@ -244,9 +244,7 @@ class _BottomTaskslistBarState extends State<BottomTaskslistBar> {
                   .readTasklist(widget.tasklistId);
               await AmetaskDatabase.instance
                   .updateTasklist(tasklist.copy(isShow: !tasklist.isShow));
-                  print("hello");
               await widget.callback();
-              print("hello2");
             },
             icon: Icon(isShowed ? FeatherIcons.eyeOff : FeatherIcons.eye),
             style: ButtonStyle(

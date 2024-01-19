@@ -132,6 +132,15 @@ class _TasklistListsState extends State<TasklistLists> {
               icon: const Icon(FeatherIcons.plus),
               label: const Text("New Tasklist"),
               style: ButtonStyle(
+                elevation: MaterialStateProperty.resolveWith((states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return 3;
+                  }
+                  return 5;
+                }),
+                shadowColor: MaterialStateProperty.all(AmetaskColors.black),
+                side: const MaterialStatePropertyAll(
+                    BorderSide(color: AmetaskColors.dark, width: 2)),
                 backgroundColor: MaterialStateProperty.resolveWith(
                   (states) {
                     if (states.contains(MaterialState.pressed)) {

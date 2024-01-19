@@ -86,7 +86,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      const EdgeInsets.all(15),
                   child: TextFormField(
                     minLines: 1,
                     maxLines: 2,
@@ -128,7 +128,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextFormField(
                     minLines: 1,
                     maxLines: 5,
