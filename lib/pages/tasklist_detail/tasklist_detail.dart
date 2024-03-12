@@ -3,6 +3,7 @@ import 'package:ametask/models/tasklists_model.dart';
 import 'package:ametask/pages/tasklist_detail/widgets/bottom_bar.dart';
 import 'package:ametask/pages/tasklist_detail/widgets/delete_button.dart';
 import 'package:ametask/pages/tasklist_detail/widgets/info_button.dart';
+import 'package:ametask/pages/tasklist_detail/widgets/save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:ametask/db/database.dart';
 import 'package:ametask/pages/tasklist_detail/widgets/tasks_list.dart';
@@ -25,6 +26,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
   late int numTasks;
   late int numTasksRemaining;
   bool isLoading = false;
+  bool isEdited = false;
 
   _DetailTasklistState.initState();
 
@@ -52,9 +54,10 @@ class _DetailTasklistState extends State<DetailTasklist> {
     setState(() => isLoading = false);
   }
 
-  modifTasklist() {
+  saveTasklist() {
     tasklist = tasklist.copy(lastModifDate: DateTime.now());
     AmetaskDatabase.instance.updateTasklist(tasklist);
+    isEdited = false;
     refreshTasklist();
   }
 
@@ -67,12 +70,14 @@ class _DetailTasklistState extends State<DetailTasklist> {
           isLoading ? "loading..." : tasklist.name,
           style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: AmetaskColors.darker,
+        backgroundColor: AmetaskColors.bg2,
         foregroundColor: AmetaskColors.white,
         actions: <Widget>[
-          InfoTLButton(
-            tasklistId: widget.tasklistId,
-          ),
+          isEdited
+              ? SaveButton(callback: saveTasklist)
+              : InfoTLButton(
+                  tasklistId: widget.tasklistId,
+                ),
           DeleteTLButton(
             tasklistId: widget.tasklistId,
             context: context,
@@ -85,8 +90,7 @@ class _DetailTasklistState extends State<DetailTasklist> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: TextFormField(
                     minLines: 1,
                     maxLines: 2,
@@ -118,13 +122,12 @@ class _DetailTasklistState extends State<DetailTasklist> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    //controller: TextEditingController(),
                     onChanged: (String value) async {
                       tasklist = tasklist.copy(name: value);
-
-                      await AmetaskDatabase.instance.updateTasklist(tasklist);
+                      setState(() {
+                        isEdited = true;
+                      });
                     },
-                    onFieldSubmitted: (String value) => modifTasklist(),
                   ),
                 ),
                 Padding(
@@ -157,7 +160,9 @@ class _DetailTasklistState extends State<DetailTasklist> {
                     onChanged: (String value) async {
                       tasklist = tasklist.copy(description: value);
 
-                      await AmetaskDatabase.instance.updateTasklist(tasklist);
+                      setState(() {
+                        isEdited = true;
+                      });
                     },
                   ),
                 ),

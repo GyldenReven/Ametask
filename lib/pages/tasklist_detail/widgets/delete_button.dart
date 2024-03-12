@@ -17,7 +17,7 @@ class DeleteTLButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
         icon: const Icon(FeatherIcons.trash2),
-        color: const Color(0xFFFBFBFB),
+        color: AmetaskColors.white,
         onPressed: () {
           showDialog(
               context: context,
