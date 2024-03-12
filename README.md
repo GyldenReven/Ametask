@@ -3,6 +3,8 @@
 Ametask is an application in wich you can create tasks lists
 It's created with dart, with Flutter. It uses the library [sqflite](https://pub.dev/packages/sqflite) to store data.
 
+The project is still in early development so the Readme and most of the app are not finished
+
 ## Getting Started
 ### Instalation
 
