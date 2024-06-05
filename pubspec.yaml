@@ -33,7 +33,7 @@ dependencies:
   flutter:
     sdk: flutter
   getwidget: ^4.0.0
-  google_fonts: ^6.1.0
+  google_fonts: ^6.2.1
   sqflite: ^2.3.0
 
 dev_dependencies:
