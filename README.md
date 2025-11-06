@@ -1,32 +1,43 @@
 # Ametask
 
-Ametask is an application in wich you can create tasks lists
-It's created with dart, with Flutter. It uses the library [sqflite](https://pub.dev/packages/sqflite) to store data.
+Ametask est une applcation de gestion de liste de tâches réalisée en Dart avec le framework Flutter.
+Les données sont stockées en local sur le téléphone en utilisant la bibliothèque [sqflite](https://pub.dev/packages/sqflite
 
-The project is still in early development so the Readme and most of the app are not finished
+Ce projet est pour le moment une ébauche qui m'a permis de découvrir une nouvelle technologie.
 
-## Getting Started
-### Instalation
+## Instalation
 
-### First encounter
+Pour le moment, Ametask n'est pas officiellement distribuée, il reste néanmoins possible de
+construire l'application mobile en utilisant flutter ```flutter build apk```
 
-## Data type
-### Tasklists
-Tasklists are the pages where you can see and edit your tasks related to this tasklits
-### Tasks
-Tasks are small pages reprensenting one task. 
-They will be stored directly in the tasklist from the user point of view.
+## Présentation des pages
 
-You can easily edit your tasks simply by clicking on it on the list
-It will then open a small page from the bottom of the screen.
-Here you will see several fields :
-- Title : You can put the name of the task here. It will appear in the list
-- Description : If you want to add more informations
-- Priority : If you want to change the order of the list. Other tasks will be moved
+### Accueil
 
-**There is more than one type of tasks :**
-### Other
+La page d'accueil permet de visualiser l'ensemble des listes de tâches, en les organisant par ordre
+de dernière modification.
 
-## Settings
+Cette page prévoit aussi d'autres éléments tels qu'un menu de navigation ou une barre de recherche qui ppourront servir à l'implémentation
+de fonctionnalités futures plus complexes.
 
-Settings will be added in the future to enhance users experience
+### Liste de tâches
+
+Cette page permet d'avoir une vue d'ensemble de la liste de tâches sélectionnée ainsi que d'effectuer les modifications souhaitées.
+
+Les élements modifiables sont le nom de la liste de tâche ainsi que sa description.
+
+L'utilisateur peut également acceder à un menu pop-up affichant des informations supplémentaires sur la liste de taches.
+
+La liste de tâches présente aussi la liste des taches qu'elle contient. Des bouttons présents en bas de la page permettent également
+de gérer des opéations rapides pour les liste de tâches comportant un grand nombre de tâches à gérer.
+
+### Tâche
+
+Cette page permet d'avoir une vue d'ensemble de la tâche sélectionnée ainsi que d'effectuer les modifications souhaitées.
+
+L'utilisateur à la possibilité de modifier le nom de la tâche, ainsi que sa description. Il peut également modifié sa 
+"priorité" qui permet de monter ou descendre une tâche dans la liste par rapport aux autres.
+
+Les tâches peuvent être de deux types : validable ou numérotable. Une tâche validable possède seulement deux états : finie ou non.
+Tandis qu'une tâche numérotable permet de rentrer une valeur à atteindre, pouvant par exemple représenter un nombre d'itération de la 
+tâche à éxecuter.
