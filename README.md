@@ -1,7 +1,7 @@
 # Ametask
 
 Ametask est une applcation de gestion de liste de tâches réalisée en Dart avec le framework Flutter.
-Les données sont stockées en local sur le téléphone en utilisant la bibliothèque [sqflite](https://pub.dev/packages/sqflite
+Les données sont stockées en local sur le téléphone en utilisant la bibliothèque [sqflite](https://pub.dev/packages/sqflite)
 
 Ce projet est pour le moment une ébauche qui m'a permis de découvrir une nouvelle technologie.
 
